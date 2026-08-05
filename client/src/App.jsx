@@ -28,9 +28,9 @@ export default function App() {
   // Shared Follow-Ups Database State
   const [followUpsList, setFollowUpsList] = useState([
     { 
-      id: 'f-1', 
+      id: 'genz-f-01', 
       client: 'Quantum AI Systems', 
-      task: 'Send updated SaaS architecture proposal and quote', 
+      task: 'Send SaaS architecture proposal & pricing quote', 
       dueDate: '2026-08-05', 
       dueTime: '03:00 PM', 
       priority: 'Urgent', 
@@ -39,7 +39,7 @@ export default function App() {
       email: 'marcus@quantum.ai'
     },
     { 
-      id: 'f-2', 
+      id: 'genz-f-02', 
       client: 'Global Logistics Corp', 
       task: 'Call CTO to confirm SLA signing ceremony timeline', 
       dueDate: '2026-08-06', 
@@ -50,7 +50,7 @@ export default function App() {
       phone: '+1 212-555-0144'
     },
     { 
-      id: 'f-3', 
+      id: 'genz-f-03', 
       client: 'CarePulse Health', 
       task: 'Verify onboarding document upload status', 
       dueDate: '2026-08-05', 
@@ -61,7 +61,7 @@ export default function App() {
       email: 'jane.foster@carepulse.com'
     },
     { 
-      id: 'f-4', 
+      id: 'genz-f-04', 
       client: 'PaySwift Fintech', 
       task: 'Send API v3 security checklist to development lead', 
       dueDate: '2026-08-04', 
@@ -74,7 +74,11 @@ export default function App() {
   ]);
 
   const handleAddFollowUpFromLead = (newFollowUp) => {
-    setFollowUpsList(prev => [newFollowUp, ...prev]);
+    setFollowUpsList(prev => {
+      const nextNum = prev.length + 1;
+      const formattedId = `genz-f-${String(nextNum).padStart(2, '0')}`;
+      return [{ ...newFollowUp, id: formattedId }, ...prev];
+    });
     // Redirect to Follow Ups submodule
     setActiveCategory('crm');
     setActiveSubModule('Follow Ups');
@@ -83,7 +87,7 @@ export default function App() {
   const handleConvertClientData = (newClient) => {
     setConvertedClients(prev => {
       const nextNum = prev.length + 1;
-      const formattedId = `CL-2026-${String(nextNum).padStart(3, '0')}`;
+      const formattedId = `genz-cl-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newClient, id: formattedId }, ...prev];
     });
   };
@@ -91,7 +95,7 @@ export default function App() {
   const handleConvertToProjectData = (newProject) => {
     setClientProjects(prev => {
       const nextNum = prev.length + 1;
-      const formattedId = `PRJ-2026-${String(nextNum).padStart(3, '0')}`;
+      const formattedId = `genz-prj-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newProject, id: formattedId }, ...prev];
     });
   };

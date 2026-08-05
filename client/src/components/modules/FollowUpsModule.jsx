@@ -35,8 +35,9 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
     e.preventDefault();
     if (!client || !task || !dueDate) return;
 
+    const nextNum = followUps.length + 1;
     const newFollowUp = {
-      id: `f-${Date.now()}`,
+      id: `genz-f-${String(nextNum).padStart(2, '0')}`,
       client,
       contactPerson,
       task,
