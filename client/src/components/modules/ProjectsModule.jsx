@@ -230,7 +230,11 @@ export default function ProjectsModule({
                                       projectName: prj.projectName,
                                       assignedTo: prj.assignedTo || 'Unassigned',
                                       completedAt: formattedTime,
-                                      details: prj // Include all fields (budget, service, client, company) for historical view
+                                      leadAddedDate: prj.leadAddedDate || '2026-08-01',
+                                      clientConvertedDate: prj.clientConvertedDate || '2026-08-03',
+                                      projectStartedDate: prj.projectStartedDate || prj.createdDate || '2026-08-05',
+                                      completedTime: formattedTime,
+                                      details: prj
                                     },
                                     ...prev
                                   ]);

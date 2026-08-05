@@ -104,63 +104,98 @@ export default function ProjectsHistoryModule({ historyList = [], setHistoryList
             </div>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem', color: '#334155' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
                 <span style={{ fontWeight: 700, color: '#64748B' }}>History ID:</span>
                 <span style={{ fontWeight: 800, color: '#059669' }}>{viewHistory.id}</span>
               </div>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
                 <span style={{ fontWeight: 700, color: '#64748B' }}>Project Name:</span>
                 <span style={{ fontWeight: 800, color: '#0F172A', textDecoration: 'line-through' }}>{viewHistory.projectName}</span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                <span style={{ fontWeight: 700, color: '#64748B' }}>Assigned User:</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
+                <span style={{ fontWeight: 700, color: '#64748B' }}>Assigned Developer:</span>
                 <span style={{ fontWeight: 700, color: '#4F46E5' }}>{viewHistory.assignedTo}</span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                <span style={{ fontWeight: 700, color: '#64748B' }}>Completed Time:</span>
-                <span style={{ fontWeight: 700, color: '#D97706' }}>{viewHistory.completedAt}</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
+                <span style={{ fontWeight: 700, color: '#64748B' }}>Provided Service:</span>
+                <span style={{ fontWeight: 800, color: '#0F172A' }}>
+                  {viewHistory.details ? viewHistory.details.service : 'Legacy Web Development'}
+                </span>
+              </div>
+
+              {/* Chronological Audit Timeline */}
+              <div style={{ marginTop: '0.75rem', background: '#F8FAFC', padding: '1rem', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>
+                  ⏳ Project Progress Timeline
+                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', borderLeft: '2px solid #E2E8F0', paddingLeft: '0.85rem', marginLeft: '0.4rem' }}>
+                  
+                  {/* Step 1: Lead Registered */}
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '-1.25rem', top: '0.2rem', width: '8px', height: '8px', borderRadius: '50%', background: '#7C3AED' }}></div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0F172A' }}>Lead Registered</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B', marginTop: '0.1rem' }}>
+                      Date: {viewHistory.leadAddedDate || (viewHistory.details && viewHistory.details.leadAddedDate) || '2026-08-01'}
+                    </div>
+                  </div>
+
+                  {/* Step 2: Converted to Client */}
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '-1.25rem', top: '0.2rem', width: '8px', height: '8px', borderRadius: '50%', background: '#059669' }}></div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0F172A' }}>Converted to Client</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B', marginTop: '0.1rem' }}>
+                      Date: {viewHistory.clientConvertedDate || (viewHistory.details && viewHistory.details.clientConvertedDate) || '2026-08-03'}
+                    </div>
+                  </div>
+
+                  {/* Step 3: Converted to Active Project */}
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '-1.25rem', top: '0.2rem', width: '8px', height: '8px', borderRadius: '50%', background: '#2563EB' }}></div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0F172A' }}>Converted to Project (Started)</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B', marginTop: '0.1rem' }}>
+                      Date: {viewHistory.projectStartedDate || (viewHistory.details && viewHistory.details.projectStartedDate) || '2026-08-05'}
+                    </div>
+                  </div>
+
+                  {/* Step 4: Project Completed */}
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '-1.25rem', top: '0.2rem', width: '8px', height: '8px', borderRadius: '50%', background: '#E11D48' }}></div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#E11D48' }}>Project Completed (Finish)</div>
+                    <div style={{ fontSize: '0.72rem', color: '#E11D48', fontWeight: 600, marginTop: '0.1rem' }}>
+                      Time: {viewHistory.completedAt}
+                    </div>
+                  </div>
+
+                </div>
               </div>
 
               {/* Dynamic historical lead input data details block */}
-              {viewHistory.details ? (
-                <>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Project ID:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.id}</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Client Name:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.clientName}</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Company Name:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.company}</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Service:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.service}</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Budget:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.budget}</span>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                    <span style={{ fontWeight: 700, color: '#64748B' }}>Created Date:</span>
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>{viewHistory.details.createdDate}</span>
-                  </div>
-                  {viewHistory.details.deadline && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
-                      <span style={{ fontWeight: 700, color: '#64748B' }}>Target Deadline:</span>
-                      <span style={{ fontWeight: 700, color: '#E11D48' }}>{viewHistory.details.deadline}</span>
+              {viewHistory.details && (
+                <div style={{ background: '#F8FAFC', padding: '0.85rem', borderRadius: '8px', border: '1px dashed #E2E8F0', marginTop: '0.5rem' }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', display: 'block', marginBottom: '0.45rem' }}>
+                    📋 Original Client Records
+                  </span>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.65rem', fontSize: '0.78rem' }}>
+                    <div>
+                      <span style={{ color: '#64748B', fontWeight: 600 }}>Client Name:</span>
+                      <div style={{ color: '#0F172A', fontWeight: 700, marginTop: '0.1rem' }}>{viewHistory.details.clientName}</div>
                     </div>
-                  )}
-                </>
-              ) : (
-                <div style={{ padding: '0.5rem', background: '#F8FAFC', borderRadius: '8px', fontSize: '0.75rem', color: '#64748B', textAlign: 'center' }}>
-                  No lead details stored for this legacy log entry.
+                    <div>
+                      <span style={{ color: '#64748B', fontWeight: 600 }}>Company Name:</span>
+                      <div style={{ color: '#0F172A', fontWeight: 700, marginTop: '0.1rem' }}>{viewHistory.details.company}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: '#64748B', fontWeight: 600 }}>Project Budget:</span>
+                      <div style={{ color: '#059669', fontWeight: 700, marginTop: '0.1rem' }}>{viewHistory.details.budget}</div>
+                    </div>
+                    <div>
+                      <span style={{ color: '#64748B', fontWeight: 600 }}>Project ID:</span>
+                      <div style={{ color: '#0F172A', fontWeight: 700, marginTop: '0.1rem' }}>{viewHistory.details.id}</div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

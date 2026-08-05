@@ -189,6 +189,7 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
       ...formData,
       id: `genz-L-2026-${String(leads.length + 1).padStart(3, '0')}`,
       date: new Date().toISOString().split('T')[0],
+      leadAddedDate: new Date().toISOString().split('T')[0], // Track lead registration timestamp
     };
     setLeads(prev => [newLead, ...prev]);
     setShowAddForm(false);
@@ -258,6 +259,8 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
           budget: lead.budget,
           status: 'Active',
           assignedTo: lead.assignedTo,
+          leadAddedDate: lead.leadAddedDate || lead.date || new Date().toISOString().split('T')[0], // Retain lead timestamp
+          clientConvertedDate: new Date().toISOString().split('T')[0], // Track client conversion timestamp
           convertedDate: new Date().toISOString().split('T')[0],
           source: lead.source
         });

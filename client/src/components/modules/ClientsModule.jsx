@@ -104,7 +104,10 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
           status: 'In Progress',
           deadline: '2026-10-31',
           assignedTo: client.assignedTo || 'Unassigned',
-          createdDate: new Date().toISOString().split('T')[0]
+          createdDate: new Date().toISOString().split('T')[0],
+          leadAddedDate: client.leadAddedDate || '2026-08-01', // Fallback defaults
+          clientConvertedDate: client.clientConvertedDate || '2026-08-03',
+          projectStartedDate: new Date().toISOString().split('T')[0] // Track project startup timestamp
         }, client.id);
       }
       alert(`🚀 Project "${client.company} - ${client.service}" created successfully in Projects Hub!`);
