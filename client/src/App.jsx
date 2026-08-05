@@ -28,7 +28,7 @@ export default function App() {
   // Shared Follow-Ups Database State
   const [followUpsList, setFollowUpsList] = useState([
     { 
-      id: 'genz-f-2026-01', 
+      id: 'genz-F-2026-01', 
       client: 'Quantum AI Systems', 
       task: 'Send SaaS architecture proposal & pricing quote', 
       dueDate: '2026-08-05', 
@@ -39,7 +39,7 @@ export default function App() {
       email: 'marcus@quantum.ai'
     },
     { 
-      id: 'genz-f-2026-02', 
+      id: 'genz-F-2026-02', 
       client: 'Global Logistics Corp', 
       task: 'Call CTO to confirm SLA signing ceremony timeline', 
       dueDate: '2026-08-06', 
@@ -50,7 +50,7 @@ export default function App() {
       phone: '+1 212-555-0144'
     },
     { 
-      id: 'genz-f-2026-03', 
+      id: 'genz-F-2026-03', 
       client: 'CarePulse Health', 
       task: 'Verify onboarding document upload status', 
       dueDate: '2026-08-05', 
@@ -61,7 +61,7 @@ export default function App() {
       email: 'jane.foster@carepulse.com'
     },
     { 
-      id: 'genz-f-2026-04', 
+      id: 'genz-F-2026-04', 
       client: 'PaySwift Fintech', 
       task: 'Send API v3 security checklist to development lead', 
       dueDate: '2026-08-04', 
@@ -76,7 +76,7 @@ export default function App() {
   const handleAddFollowUpFromLead = (newFollowUp) => {
     setFollowUpsList(prev => {
       const nextNum = prev.length + 1;
-      const formattedId = `genz-f-2026-${String(nextNum).padStart(2, '0')}`;
+      const formattedId = `genz-F-2026-${String(nextNum).padStart(2, '0')}`;
       return [{ ...newFollowUp, id: formattedId }, ...prev];
     });
     // Redirect to Follow Ups submodule
@@ -87,7 +87,7 @@ export default function App() {
   const handleConvertClientData = (newClient) => {
     setConvertedClients(prev => {
       const nextNum = prev.length + 1;
-      const formattedId = `genz-cl-2026-${String(nextNum).padStart(3, '0')}`;
+      const formattedId = `genz-C-2026-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newClient, id: formattedId }, ...prev];
     });
   };

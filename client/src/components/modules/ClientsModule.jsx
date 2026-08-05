@@ -7,7 +7,7 @@ import {
 
 const INITIAL_CLIENTS = [
   {
-    id: 'genz-cl-2026-001',
+    id: 'genz-C-2026-001',
     name: 'Anita Sharma',
     company: 'EduStar Academy',
     contactPerson: 'Anita Sharma',
