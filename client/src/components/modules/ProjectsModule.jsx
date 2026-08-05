@@ -51,6 +51,9 @@ export default function ProjectsModule({
   const [viewProject, setViewProject] = useState(null);
 
   const filteredProjects = projects.filter(prj => {
+    // Hide Completed projects from active Projects list (moved to History)
+    if (prj.status === 'Completed') return false;
+
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       const match = prj.projectName.toLowerCase().includes(q) ||
