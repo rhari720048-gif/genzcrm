@@ -37,7 +37,7 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
 
     const nextNum = followUps.length + 1;
     const newFollowUp = {
-      id: `genz-f-${String(nextNum).padStart(2, '0')}`,
+      id: `genz-f-2026-${String(nextNum).padStart(2, '0')}`,
       client,
       contactPerson,
       task,
