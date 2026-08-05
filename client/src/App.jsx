@@ -346,11 +346,24 @@ export default function App() {
             </span>
 
             <button 
-              className="btn-secondary"
               onClick={() => setIsAuthenticated(false)}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', padding: '0.45rem 0.85rem', color: '#E11D48', border: '1px solid rgba(225, 29, 72, 0.25)', fontWeight: 600 }}
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.45rem', 
+                fontSize: '0.82rem', 
+                padding: '0.5rem 1rem', 
+                color: '#FFFFFF', 
+                background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', 
+                border: 'none',
+                borderRadius: 'var(--radius-sm)',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
+                transition: 'all 0.2s ease'
+              }}
             >
-              <LogOut size={14} color="#E11D48" /> Logout
+              <LogOut size={15} color="#FFFFFF" /> Logout
             </button>
           </div>
 
