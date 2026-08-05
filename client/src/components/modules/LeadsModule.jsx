@@ -127,7 +127,11 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
     name: '', company: '', contactPerson: '', email: '', phone: '', whatsapp: '', website: '',
     country: '', state: '', city: '', address: '', pincode: '',
     industry: '', businessType: '', companySize: '', service: '', budget: '',
-    source: '', status: 'New', assignedTo: '', priority: 'Medium', notes: ''
+    source: '', status: 'New', assignedTo: '', priority: 'Medium', notes: '',
+    scheduleFollowUp: false,
+    followUpDate: '',
+    followUpTime: '10:00 AM',
+    followUpTask: ''
   });
 
   // Form active section tab
@@ -170,7 +174,11 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
       name: '', company: '', contactPerson: '', email: '', phone: '', whatsapp: '', website: '',
       country: '', state: '', city: '', address: '', pincode: '',
       industry: '', businessType: '', companySize: '', service: '', budget: '',
-      source: '', status: 'New', assignedTo: '', priority: 'Medium', notes: ''
+      source: '', status: 'New', assignedTo: '', priority: 'Medium', notes: '',
+      scheduleFollowUp: false,
+      followUpDate: '',
+      followUpTime: '10:00 AM',
+      followUpTask: ''
     });
     setFormSection('basic');
   };
@@ -191,34 +199,37 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
     e.preventDefault();
     const updatedLead = { ...formData, id: editLead.id, date: editLead.date };
     
-    // Auto-transfer check: If user updated the lead notes and saved it
-    if (updatedLead.notes && updatedLead.notes !== editLead.notes) {
-      if (confirm(`Lead "${updatedLead.name}" has new notes. Schedule automated Follow-Up for this client and transfer to Follow Ups module?`)) {
-        // Remove from Leads database
-        setLeads(prev => prev.filter(l => l.id !== editLead.id));
-        
-        // Dispatch to Follow Ups list
-        if (onScheduleFollowUp) {
-          onScheduleFollowUp({
-            id: `f-${Date.now()}`,
-            client: updatedLead.company,
-            contactPerson: updatedLead.contactPerson || updatedLead.name,
-            task: updatedLead.notes,
-            dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0], // scheduled for tomorrow
-            dueTime: '10:00 AM',
-            priority: updatedLead.priority || 'Medium',
-            status: 'pending',
-            email: updatedLead.email,
-            phone: updatedLead.phone
-          });
-        }
-        
-        setEditLead(null);
-        setShowAddForm(false);
-        resetForm();
-        alert(`📅 Lead "${updatedLead.name}" has been scheduled & transferred to Follow Ups!`);
+    // Explicit Schedule Follow-Up switch trigger
+    if (updatedLead.scheduleFollowUp) {
+      if (!updatedLead.followUpDate) {
+        alert('Please select a Follow-Up date!');
         return;
       }
+      
+      // Remove from Leads database
+      setLeads(prev => prev.filter(l => l.id !== editLead.id));
+      
+      // Dispatch to Follow Ups list
+      if (onScheduleFollowUp) {
+        onScheduleFollowUp({
+          id: `f-${Date.now()}`,
+          client: updatedLead.company,
+          contactPerson: updatedLead.contactPerson || updatedLead.name,
+          task: updatedLead.followUpTask || updatedLead.notes || 'Routine follow-up call',
+          dueDate: updatedLead.followUpDate,
+          dueTime: updatedLead.followUpTime || '10:00 AM',
+          priority: updatedLead.priority || 'Medium',
+          status: 'pending',
+          email: updatedLead.email,
+          phone: updatedLead.phone
+        });
+      }
+      
+      setEditLead(null);
+      setShowAddForm(false);
+      resetForm();
+      alert(`📅 Lead "${updatedLead.name}" has been scheduled for follow-up and transferred to Follow Ups portal!`);
+      return;
     }
 
     setLeads(prev => prev.map(l => l.id === editLead.id ? updatedLead : l));
@@ -681,15 +692,65 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                     </FormField>
                   </div>
                   <div style={{ gridColumn: 'span 2' }}>
-                    <FormField label="Short Notes">
+                    <FormField label="Short Notes (Project specs / CRM requirements)">
                       <textarea
                         style={{ ...inputStyle, minHeight: '65px', resize: 'vertical' }}
-                        placeholder="Enter short notes about this lead..."
+                        placeholder="Enter short notes about project specifications (e.g. Lead CRM specs, features)..."
                         value={formData.notes}
                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                       />
                     </FormField>
                   </div>
+
+                  {/* Explicit Move to Follow-ups Selector Block */}
+                  {editLead && (
+                    <div style={{ gridColumn: 'span 2', background: '#F8FAFC', padding: '1rem', borderRadius: '10px', border: '1px solid #E2E8F0', marginTop: '0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <input 
+                          type="checkbox" 
+                          id="scheduleFollowUp"
+                          checked={formData.scheduleFollowUp || false} 
+                          onChange={(e) => setFormData({ ...formData, scheduleFollowUp: e.target.checked })}
+                          style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+                        />
+                        <label htmlFor="scheduleFollowUp" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7C3AED', cursor: 'pointer' }}>
+                          📅 Move to Follow-Ups (Schedule Date & Time)
+                        </label>
+                      </div>
+
+                      {formData.scheduleFollowUp && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginTop: '0.75rem' }}>
+                          <FormField label="Follow-Up Date" required>
+                            <input 
+                              type="date" 
+                              style={inputStyle}
+                              value={formData.followUpDate || ''} 
+                              onChange={(e) => setFormData({ ...formData, followUpDate: e.target.value })}
+                            />
+                          </FormField>
+                          <FormField label="Follow-Up Time">
+                            <input 
+                              type="text" 
+                              placeholder="10:00 AM"
+                              style={inputStyle}
+                              value={formData.followUpTime || '10:00 AM'} 
+                              onChange={(e) => setFormData({ ...formData, followUpTime: e.target.value })}
+                            />
+                          </FormField>
+                          <div style={{ gridColumn: 'span 2' }}>
+                            <FormField label="Follow-Up Task Notes" required>
+                              <textarea
+                                placeholder="Write follow up notes/action items (e.g. call back details, pricing query, call later)..."
+                                style={{ ...inputStyle, minHeight: '50px', resize: 'vertical' }}
+                                value={formData.followUpTask || ''}
+                                onChange={(e) => setFormData({ ...formData, followUpTask: e.target.value })}
+                              />
+                            </FormField>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 
