@@ -7,7 +7,7 @@ import {
 
 const INITIAL_PROJECTS = [
   {
-    id: 'PRJ-2026-001',
+    id: 'genz-P-2026-001',
     projectName: 'EduStar Academy Web Portal',
     clientName: 'Anita Sharma',
     company: 'EduStar Academy',

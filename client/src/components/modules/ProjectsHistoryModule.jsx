@@ -1,7 +1,15 @@
 import React from 'react';
-import { CheckCircle2, Clock } from 'lucide-react';
+import { CheckCircle2, Clock, Trash2 } from 'lucide-react';
 
-export default function ProjectsHistoryModule({ historyList = [] }) {
+export default function ProjectsHistoryModule({ historyList = [], setHistoryList }) {
+  const handleDeleteLog = (id) => {
+    if (confirm('Are you sure you want to delete this completion log history?')) {
+      if (setHistoryList) {
+        setHistoryList(prev => prev.filter(item => item.id !== id));
+      }
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       
@@ -27,13 +35,14 @@ export default function ProjectsHistoryModule({ historyList = [] }) {
                 <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>HISTORY ID</th>
                 <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>PROJECT NAME</th>
                 <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>ASSIGNED USER</th>
-                <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>COMPLETED AT (DATE & TIME)</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>COMPLETED AT (DATE & TIME)</th>
+                <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em', textAlign: 'center' }}>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               {historyList.length === 0 ? (
                 <tr>
-                  <td colSpan={4} style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  <td colSpan={5} style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
                     <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📭</div>
                     <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>No projects completed yet</div>
                     <div style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>Completed projects will register here dynamically</div>
@@ -46,10 +55,19 @@ export default function ProjectsHistoryModule({ historyList = [] }) {
                   <td style={{ padding: '0.75rem 0.75rem', fontWeight: 600, color: '#475569' }}>
                     <span className="badge badge-violet" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>{log.assignedTo}</span>
                   </td>
-                  <td style={{ padding: '0.75rem 1rem', color: '#64748B', fontWeight: 700 }}>
+                  <td style={{ padding: '0.75rem 0.75rem', color: '#64748B', fontWeight: 700 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                       <Clock size={12} color="#059669" /> {log.completedAt}
                     </div>
+                  </td>
+                  <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
+                    <button 
+                      title="Delete History Log" 
+                      onClick={() => handleDeleteLog(log.id)} 
+                      style={{ background: 'rgba(225, 29, 72, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#E11D48' }}
+                    >
+                      <Trash2 size={13} />
+                    </button>
                   </td>
                 </tr>
               ))}

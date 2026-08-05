@@ -105,7 +105,7 @@ export default function App() {
     // Append to Projects database list
     setClientProjects(prev => {
       const nextNum = prev.length + 1;
-      const formattedId = `genz-prj-2026-${String(nextNum).padStart(3, '0')}`;
+      const formattedId = `genz-P-2026-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newProject, id: formattedId }, ...prev];
     });
 
@@ -464,6 +464,7 @@ export default function App() {
           ) : activeSubModule === 'History' ? (
             <ProjectsHistoryModule 
               historyList={projectHistoryList}
+              setHistoryList={setProjectHistoryList}
             />
           ) : (
             <MasterControlViews 
