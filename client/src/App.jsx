@@ -66,7 +66,7 @@ export default function App() {
   // Master Structure Directory (17 Categories & 103 Sub-Modules)
   const masterStructure = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, subModules: ['Overview'] },
-    { id: 'crm', label: 'CRM', icon: <Users size={18} />, subModules: ['Leads', 'Follow Ups', 'Won (Clients)'] },
+    { id: 'crm', label: 'CRM', icon: <Users size={18} />, subModules: ['Leads', 'Follow Ups', 'Clients'] },
     { id: 'bizdev', label: 'Business Development', icon: <Handshake size={18} />, subModules: ['Partnerships', 'Agencies', 'White Label Partners', 'Resellers', 'International Clients', 'Meetings', 'Email Center'] },
     { id: 'projects', label: 'Projects', icon: <Rocket size={18} />, subModules: ['Projects', 'Products', 'Tasks', 'Milestones', 'Sprint Board', 'Time Tracking', 'Files', 'Documentation'] },
     { id: 'development', label: 'Development', icon: <Code size={18} />, subModules: ['GitHub', 'Repositories', 'Branches', 'Pull Requests', 'Deployments', 'API Keys', 'Environments'] },
