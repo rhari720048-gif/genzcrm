@@ -713,8 +713,8 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                           onChange={(e) => setFormData({ ...formData, scheduleFollowUp: e.target.checked })}
                           style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                         />
-                        <label htmlFor="scheduleFollowUp" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7C3AED', cursor: 'pointer' }}>
-                          📅 Move to Follow-Ups (Schedule Date & Time)
+                        <label htmlFor="scheduleFollowUp" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7C3AED', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                          <Calendar size={15} /> Move to Follow-Ups (Schedule Date & Time)
                         </label>
                       </div>
 
@@ -1007,12 +1007,12 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
               {/* Sub-Tabs Bar: Activities, Notes, Follow-ups, Quotations, Files */}
               <div style={{ display: 'flex', borderBottom: '1px solid #E2E8F0', gap: '0.5rem' }}>
                 {[
-                  { id: 'overview', label: 'Overview' },
-                  { id: 'activities', label: '⚡ Activities' },
-                  { id: 'notes', label: '📝 Notes' },
-                  { id: 'followups', label: '📅 Follow-ups' },
-                  { id: 'quotations', label: '📄 Quotations' },
-                  { id: 'files', label: '📁 Files' },
+                  { id: 'overview', label: 'Overview', icon: <User size={13} /> },
+                  { id: 'activities', label: 'Activities', icon: <TrendingUp size={13} /> },
+                  { id: 'notes', label: 'Notes', icon: <FileText size={13} /> },
+                  { id: 'followups', label: 'Follow-ups', icon: <Calendar size={13} /> },
+                  { id: 'quotations', label: 'Quotations', icon: <ShieldCheck size={13} /> },
+                  { id: 'files', label: 'Files', icon: <Download size={13} /> },
                 ].map(tab => (
                   <button
                     key={tab.id}
@@ -1022,10 +1022,11 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                       background: 'none', border: 'none',
                       color: detailTab === tab.id ? '#7C3AED' : '#64748B',
                       borderBottom: detailTab === tab.id ? '2px solid #7C3AED' : '2px solid transparent',
+                      display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    {tab.label}
+                    {tab.icon} {tab.label}
                   </button>
                 ))}
               </div>
