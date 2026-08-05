@@ -15,6 +15,7 @@ import ProjectsModule from './components/modules/ProjectsModule';
 import LoginPage from './components/auth/LoginPage';
 import AIAgentCopilot from './components/ai/AIAgentCopilot';
 import GenZLogo from './components/common/GenZLogo';
+import FollowUpsModule from './components/modules/FollowUpsModule';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -373,6 +374,8 @@ export default function App() {
         <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
           {activeSubModule === 'Leads' ? (
             <LeadsModule onConvertClient={handleConvertClientData} />
+          ) : activeSubModule === 'Follow Ups' ? (
+            <FollowUpsModule onTriggerAI={handleTriggerAI} />
           ) : activeSubModule === 'Clients' || activeSubModule === 'Won (Clients)' ? (
             <ClientsModule clientsList={convertedClients} onConvertToProject={handleConvertToProjectData} />
           ) : activeSubModule === 'Projects' ? (
