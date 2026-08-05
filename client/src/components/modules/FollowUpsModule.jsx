@@ -109,6 +109,9 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
     if (filter === 'overdue') return isOverdue;
     if (filter === 'completed') return item.status === 'completed';
     return true; // 'all'
+  }).sort((a, b) => {
+    // Sort primarily by id alphabetically/numerically so f-1 is first, f-2 second, etc.
+    return a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: 'base' });
   });
 
   // Count highlights
