@@ -293,24 +293,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
           </form>
 
-          {/* 📢 Premium Touch: Company Announcement Card */}
-          <div style={{ 
-            marginTop: '1.5rem', 
-            background: isDarkMode ? '#0F172A' : '#F1F5F9', 
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-md)',
-            padding: '1rem',
-            borderLeft: '4px solid #2563EB'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: '#2563EB', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
-              <AnnouncementIcon size={16} /> {t.announcement}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', fontSize: '0.78rem', color: isDarkMode ? '#CBD5E1' : '#334155', fontWeight: 600 }}>
-              <div>{t.announcement1}</div>
-              <div>{t.announcement2}</div>
-              <div style={{ color: '#E11D48' }}>{t.announcement3}</div>
-            </div>
-          </div>
+
 
         </div>
 
