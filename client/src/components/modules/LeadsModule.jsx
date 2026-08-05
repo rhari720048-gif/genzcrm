@@ -89,7 +89,7 @@ const selectStyle = {
 // ═══════════════════════════════════════════════════════════════════
 // MAIN LEADS MODULE COMPONENT
 // ═══════════════════════════════════════════════════════════════════
-export default function LeadsModule({ onConvertClient }) {
+export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
   const [leads, setLeads] = useState(SAMPLE_LEADS);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -189,7 +189,39 @@ export default function LeadsModule({ onConvertClient }) {
 
   const handleEditLead = (e) => {
     e.preventDefault();
-    setLeads(prev => prev.map(l => l.id === editLead.id ? { ...formData, id: editLead.id, date: editLead.date } : l));
+    const updatedLead = { ...formData, id: editLead.id, date: editLead.date };
+    
+    // Auto-transfer check: If user updated the lead notes and saved it
+    if (updatedLead.notes && updatedLead.notes !== editLead.notes) {
+      if (confirm(`Lead "${updatedLead.name}" has new notes. Schedule automated Follow-Up for this client and transfer to Follow Ups module?`)) {
+        // Remove from Leads database
+        setLeads(prev => prev.filter(l => l.id !== editLead.id));
+        
+        // Dispatch to Follow Ups list
+        if (onScheduleFollowUp) {
+          onScheduleFollowUp({
+            id: `f-${Date.now()}`,
+            client: updatedLead.company,
+            contactPerson: updatedLead.contactPerson || updatedLead.name,
+            task: updatedLead.notes,
+            dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0], // scheduled for tomorrow
+            dueTime: '10:00 AM',
+            priority: updatedLead.priority || 'Medium',
+            status: 'pending',
+            email: updatedLead.email,
+            phone: updatedLead.phone
+          });
+        }
+        
+        setEditLead(null);
+        setShowAddForm(false);
+        resetForm();
+        alert(`📅 Lead "${updatedLead.name}" has been scheduled & transferred to Follow Ups!`);
+        return;
+      }
+    }
+
+    setLeads(prev => prev.map(l => l.id === editLead.id ? updatedLead : l));
     setEditLead(null);
     setShowAddForm(false);
     resetForm();

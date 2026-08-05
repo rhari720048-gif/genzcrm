@@ -25,6 +25,61 @@ export default function App() {
   const [convertedClients, setConvertedClients] = useState([]);
   const [clientProjects, setClientProjects] = useState([]);
 
+  // Shared Follow-Ups Database State
+  const [followUpsList, setFollowUpsList] = useState([
+    { 
+      id: 'f-1', 
+      client: 'Quantum AI Systems', 
+      task: 'Send updated SaaS architecture proposal and quote', 
+      dueDate: '2026-08-05', 
+      dueTime: '03:00 PM', 
+      priority: 'Urgent', 
+      status: 'pending',
+      contactPerson: 'Marcus Vance (CEO)',
+      email: 'marcus@quantum.ai'
+    },
+    { 
+      id: 'f-2', 
+      client: 'Global Logistics Corp', 
+      task: 'Call CTO to confirm SLA signing ceremony timeline', 
+      dueDate: '2026-08-06', 
+      dueTime: '11:30 AM', 
+      priority: 'High', 
+      status: 'pending',
+      contactPerson: 'Sarah Jenkins (CTO)',
+      phone: '+1 212-555-0144'
+    },
+    { 
+      id: 'f-3', 
+      client: 'CarePulse Health', 
+      task: 'Verify onboarding document upload status', 
+      dueDate: '2026-08-05', 
+      dueTime: '05:00 PM', 
+      priority: 'Medium', 
+      status: 'pending',
+      contactPerson: 'Dr. Jane Foster',
+      email: 'jane.foster@carepulse.com'
+    },
+    { 
+      id: 'f-4', 
+      client: 'PaySwift Fintech', 
+      task: 'Send API v3 security checklist to development lead', 
+      dueDate: '2026-08-04', 
+      dueTime: '04:00 PM', 
+      priority: 'High', 
+      status: 'completed',
+      contactPerson: 'Ravi Kumar',
+      email: 'ravi.kumar@payswift.com'
+    }
+  ]);
+
+  const handleAddFollowUpFromLead = (newFollowUp) => {
+    setFollowUpsList(prev => [newFollowUp, ...prev]);
+    // Redirect to Follow Ups submodule
+    setActiveCategory('crm');
+    setActiveSubModule('Follow Ups');
+  };
+
   const handleConvertClientData = (newClient) => {
     setConvertedClients(prev => {
       const nextNum = prev.length + 1;
@@ -373,9 +428,9 @@ export default function App() {
         {/* Dynamic Category Engine Renderer */}
         <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
           {activeSubModule === 'Leads' ? (
-            <LeadsModule onConvertClient={handleConvertClientData} />
+            <LeadsModule onConvertClient={handleConvertClientData} onScheduleFollowUp={handleAddFollowUpFromLead} />
           ) : activeSubModule === 'Follow Ups' ? (
-            <FollowUpsModule onTriggerAI={handleTriggerAI} />
+            <FollowUpsModule followUps={followUpsList} setFollowUps={setFollowUpsList} onTriggerAI={handleTriggerAI} />
           ) : activeSubModule === 'Clients' || activeSubModule === 'Won (Clients)' ? (
             <ClientsModule clientsList={convertedClients} onConvertToProject={handleConvertToProjectData} />
           ) : activeSubModule === 'Projects' ? (

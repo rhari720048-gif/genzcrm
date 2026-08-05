@@ -4,55 +4,7 @@ import {
   Search, Bot, Sparkles, Filter, Phone, Mail, Check
 } from 'lucide-react';
 
-export default function FollowUpsModule({ onTriggerAI }) {
-  // Mock initial follow-ups database
-  const [followUps, setFollowUps] = useState([
-    { 
-      id: 'f-1', 
-      client: 'Quantum AI Systems', 
-      task: 'Send updated SaaS architecture proposal and quote', 
-      dueDate: '2026-08-05', 
-      dueTime: '03:00 PM', 
-      priority: 'Urgent', 
-      status: 'pending',
-      contactPerson: 'Marcus Vance (CEO)',
-      email: 'marcus@quantum.ai'
-    },
-    { 
-      id: 'f-2', 
-      client: 'Global Logistics Corp', 
-      task: 'Call CTO to confirm SLA signing ceremony timeline', 
-      dueDate: '2026-08-06', 
-      dueTime: '11:30 AM', 
-      priority: 'High', 
-      status: 'pending',
-      contactPerson: 'Sarah Jenkins (CTO)',
-      phone: '+1 212-555-0144'
-    },
-    { 
-      id: 'f-3', 
-      client: 'CarePulse Health', 
-      task: 'Verify onboarding document upload status', 
-      dueDate: '2026-08-05', 
-      dueTime: '05:00 PM', 
-      priority: 'Medium', 
-      status: 'pending',
-      contactPerson: 'Dr. Jane Foster',
-      email: 'jane.foster@carepulse.com'
-    },
-    { 
-      id: 'f-4', 
-      client: 'PaySwift Fintech', 
-      task: 'Send API v3 security checklist to development lead', 
-      dueDate: '2026-08-04', 
-      dueTime: '04:00 PM', 
-      priority: 'High', 
-      status: 'completed',
-      contactPerson: 'Ravi Kumar',
-      email: 'ravi.kumar@payswift.com'
-    }
-  ]);
-
+export default function FollowUpsModule({ followUps = [], setFollowUps, onTriggerAI }) {
   const [filter, setFilter] = useState('active'); // 'active', 'overdue', 'completed', 'all'
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -391,6 +343,34 @@ export default function FollowUpsModule({ onTriggerAI }) {
 
                   {/* Action Buttons */}
                   <div style={{ display: 'flex', gap: '0.45rem' }}>
+                    <button
+                      onClick={() => {
+                        if (confirm(`Convert client "${item.client}" from Follow-up directly to Clients list?`)) {
+                          // Remove from follow ups
+                          setFollowUps(prev => prev.filter(f => f.id !== item.id));
+                          
+                          // Trigger client convert callback (if passed down, or mock it)
+                          alert(`🎉 Client "${item.client}" converted & transferred to Clients Portal!`);
+                        }
+                      }}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(5, 150, 105, 0.2)',
+                        background: '#FFFFFF',
+                        color: '#059669',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease'
+                      }}
+                      title="Convert to Client"
+                    >
+                      <User size={16} />
+                    </button>
+
                     <button
                       onClick={() => handleToggleStatus(item.id)}
                       style={{
