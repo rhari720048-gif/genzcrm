@@ -47,6 +47,9 @@ export default function App() {
       const formattedId = `genz-C-2026-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newClient, id: formattedId }, ...prev];
     });
+    // Redirect to Clients page after conversion
+    setActiveCategory('crm');
+    setActiveSubModule('Clients');
   };
 
   const handleConvertToProjectData = (newProject, clientId) => {

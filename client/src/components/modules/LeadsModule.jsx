@@ -259,7 +259,6 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
       if (viewLead && viewLead.id === lead.id) {
         setViewLead(null);
       }
-      alert(`🎉 Lead "${lead.name}" converted to Client & moved to Clients Portal!`);
     }
   };
 
