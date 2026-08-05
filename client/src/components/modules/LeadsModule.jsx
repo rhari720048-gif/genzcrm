@@ -8,29 +8,7 @@ import {
 } from 'lucide-react';
 
 // ─── Sample Leads Data ────────────────────────────────────────────
-const SAMPLE_LEADS = [
-  {
-    id: 'genz-L-2026-001',
-    name: 'Arjun Mehta',
-    company: 'Nexora Digital Pvt Ltd',
-    contactPerson: 'Arjun Mehta',
-    email: 'arjun@nexoradigital.in',
-    phone: '+91 98401 56789',
-    whatsapp: '+91 98401 56789',
-    website: 'nexoradigital.in',
-    country: 'India',
-    state: 'Tamil Nadu',
-    city: 'Chennai',
-    industry: 'IT Services',
-    status: 'New',
-    source: 'Google Ads',
-    assignedTo: 'Arun M',
-    service: 'CRM',
-    budget: '₹4,50,000',
-    date: '2026-08-05',
-    priority: 'High',
-  },
-];
+const SAMPLE_LEADS = [];
 
 // ─── Constants ────────────────────────────────────────────────────
 const LEAD_STATUSES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Negotiation', 'Won', 'Lost', 'Follow Up'];
