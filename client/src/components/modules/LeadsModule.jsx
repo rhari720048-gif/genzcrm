@@ -17,7 +17,6 @@ const SAMPLE_LEADS = [
   { id: 'genz-ld-006', name: 'Anita Sharma', company: 'EduStar Academy', contactPerson: 'Anita Sharma', email: 'anita@edustar.co.in', phone: '+91 76543 21098', whatsapp: '+91 76543 21098', website: 'edustar.co.in', country: 'India', state: 'Maharashtra', city: 'Mumbai', industry: 'Education', status: 'Won', source: 'Facebook', assignedTo: 'Karthik R', service: 'Digital Marketing', budget: '₹2,50,000', date: '2026-07-30', priority: 'Low' },
   { id: 'genz-ld-007', name: 'James Wilson', company: 'BuildRight Construction', contactPerson: 'James Wilson', email: 'james@buildright.co.uk', phone: '+44 7700 900123', whatsapp: '+44 7700 900123', website: 'buildright.co.uk', country: 'UK', state: 'London', city: 'London', industry: 'Construction', status: 'Lost', source: 'Cold Call', assignedTo: 'Arun M', service: 'Website', budget: '£8,000', date: '2026-07-28', priority: 'Medium' },
   { id: 'genz-ld-008', name: 'Lakshmi Narayanan', company: 'AgriTech Solutions', contactPerson: 'Lakshmi N', email: 'lakshmi@agritech.in', phone: '+91 65432 10987', whatsapp: '+91 65432 10987', website: 'agritech.in', country: 'India', state: 'Karnataka', city: 'Bangalore', industry: 'Agriculture', status: 'Follow Up', source: 'Instagram', assignedTo: 'Priya S', service: 'SEO', budget: '₹1,50,000', date: '2026-07-25', priority: 'Medium' },
-];ignedTo: 'Priya S', service: 'SEO', budget: '₹1,50,000', date: '2026-07-25', priority: 'Medium' },
 ];
 
 // ─── Constants ────────────────────────────────────────────────────
