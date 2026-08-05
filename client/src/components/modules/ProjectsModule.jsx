@@ -175,9 +175,9 @@ export default function ProjectsModule({ projectsList = [] }) {
                 const sc = STATUS_COLORS[prj.status] || STATUS_COLORS['In Progress'];
                 return (
                   <tr key={prj.id} style={{ borderBottom: '1px solid #F1F5F9', background: idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC' }}>
-                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem' }}>{prj.id}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>{prj.id}</td>
                     <td style={{ padding: '0.75rem 0.75rem' }}>
-                      <div style={{ fontWeight: 700, color: '#0F172A' }}>{prj.projectName}</div>
+                      <div style={{ fontWeight: 700, color: '#0F172A', textDecoration: prj.status === 'Completed' ? 'line-through' : 'none', opacity: prj.status === 'Completed' ? 0.75 : 1 }}>{prj.projectName}</div>
                     </td>
                     <td style={{ padding: '0.75rem 0.75rem' }}>
                       <div style={{ fontWeight: 600, color: '#334155' }}>{prj.company}</div>
@@ -198,6 +198,19 @@ export default function ProjectsModule({ projectsList = [] }) {
                     <td style={{ padding: '0.75rem 0.75rem', color: '#64748B', fontWeight: 600 }}>{prj.assignedTo || 'Unassigned'}</td>
                     <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center' }}>
+                        {prj.status !== 'Completed' && (
+                          <button 
+                            title="Mark as Completed" 
+                            onClick={() => {
+                              if (confirm(`Mark project "${prj.projectName}" as Completed?`)) {
+                                setProjects(prev => prev.map(p => p.id === prj.id ? { ...p, status: 'Completed' } : p));
+                              }
+                            }} 
+                            style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}
+                          >
+                            <CheckCircle2 size={14} />
+                          </button>
+                        )}
                         <button title="View Details" onClick={() => setViewProject(prj)} style={{ background: 'rgba(37, 99, 235, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#2563EB' }}>
                           <Eye size={14} />
                         </button>
