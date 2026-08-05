@@ -446,7 +446,10 @@ export default function App() {
           ) : activeSubModule === 'Clients' || activeSubModule === 'Won (Clients)' ? (
             <ClientsModule clientsList={convertedClients} onConvertToProject={handleConvertToProjectData} />
           ) : activeSubModule === 'Projects' ? (
-            <ProjectsModule projectsList={clientProjects} />
+            <ProjectsModule 
+              projectsList={clientProjects} 
+              setProjectsList={setClientProjects} 
+            />
           ) : (
             <MasterControlViews 
               activeCategory={activeCategory} 

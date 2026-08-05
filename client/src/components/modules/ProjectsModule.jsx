@@ -30,10 +30,19 @@ const STATUS_COLORS = {
   'On Hold': { bg: 'rgba(225, 29, 72, 0.1)', color: '#E11D48', border: 'rgba(225, 29, 72, 0.25)' },
 };
 
-export default function ProjectsModule({ projectsList = [] }) {
+export default function ProjectsModule({ projectsList = [], setProjectsList }) {
   const [projects, setProjects] = useState(() => {
     return projectsList.length > 0 ? projectsList : INITIAL_PROJECTS;
   });
+
+  const [projectHistory, setProjectHistory] = useState([
+    {
+      id: 'genz-H-01',
+      projectName: 'Legacy Website Redeployment',
+      assignedTo: 'Deepak V',
+      completedAt: '2026-08-04 05:30 PM'
+    }
+  ]);
 
   React.useEffect(() => {
     if (projectsList && projectsList.length > 0) {
@@ -203,7 +212,27 @@ export default function ProjectsModule({ projectsList = [] }) {
                             title="Mark as Completed" 
                             onClick={() => {
                               if (confirm(`Mark project "${prj.projectName}" as Completed?`)) {
-                                setProjects(prev => prev.map(p => p.id === prj.id ? { ...p, status: 'Completed' } : p));
+                                // Update local & parent states status
+                                const updated = projects.map(p => p.id === prj.id ? { ...p, status: 'Completed' } : p);
+                                setProjects(updated);
+                                if (setProjectsList) {
+                                  setProjectsList(updated);
+                                }
+
+                                // Append to history log
+                                const formattedTime = new Date().toLocaleString('en-US', {
+                                  year: 'numeric', month: '2-digit', day: '2-digit',
+                                  hour: '2-digit', minute: '2-digit', hour12: true
+                                });
+                                setProjectHistory(prev => [
+                                  {
+                                    id: `genz-H-${String(prev.length + 1).padStart(2, '0')}`,
+                                    projectName: prj.projectName,
+                                    assignedTo: prj.assignedTo || 'Unassigned',
+                                    completedAt: formattedTime
+                                  },
+                                  ...prev
+                                ]);
                               }
                             }} 
                             style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}
@@ -224,6 +253,55 @@ export default function ProjectsModule({ projectsList = [] }) {
               })}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* ─── Completed Projects History Section ─── */}
+      <div style={{ marginTop: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.85rem' }}>
+          <span className="badge badge-emerald" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', padding: '0.35rem 0.65rem' }}>
+            <CheckCircle2 size={12} /> Completion Logs
+          </span>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0F172A', margin: 0 }}>
+            Completed Projects History
+          </h3>
+        </div>
+
+        <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>
+              <thead>
+                <tr style={{ background: '#F8FAFC', borderBottom: '2px solid #E2E8F0' }}>
+                  <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>HISTORY ID</th>
+                  <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>PROJECT NAME</th>
+                  <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>ASSIGNED USER</th>
+                  <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>COMPLETED AT (DATE & TIME)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {projectHistory.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                      No projects completed yet.
+                    </td>
+                  </tr>
+                ) : projectHistory.map((log, idx) => (
+                  <tr key={log.id} style={{ borderBottom: '1px solid #F1F5F9', background: idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC' }}>
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#059669', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>{log.id}</td>
+                    <td style={{ padding: '0.75rem 0.75rem', fontWeight: 700, color: '#0F172A' }}>{log.projectName}</td>
+                    <td style={{ padding: '0.75rem 0.75rem', fontWeight: 600, color: '#475569' }}>
+                      <span className="badge badge-violet" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>{log.assignedTo}</span>
+                    </td>
+                    <td style={{ padding: '0.75rem 1rem', color: '#64748B', fontWeight: 700 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <Clock size={12} color="#059669" /> {log.completedAt}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
