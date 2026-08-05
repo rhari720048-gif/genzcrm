@@ -48,6 +48,16 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
   const [editClient, setEditClient] = useState(null);
   const [editFormData, setEditFormData] = useState({ name: '', company: '', email: '', phone: '', service: '', budget: '', status: 'Active' });
 
+  // Smart Communication overlays states inside ClientsModule
+  const [activeCall, setActiveCall] = useState(null);
+  const [callDuration, setCallDuration] = useState(0);
+  const [callTimer, setCallTimer] = useState(null);
+  const [activeMail, setActiveMail] = useState(null);
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailBody, setEmailBody] = useState('');
+  const [activeWhatsApp, setActiveWhatsApp] = useState(null);
+  const [whatsappMessage, setWhatsappMessage] = useState('');
+
   const openEditModal = (client) => {
     setEditClient(client);
     setEditFormData({
@@ -214,9 +224,43 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
                   <td style={{ padding: '0.75rem 0.75rem', fontWeight: 600, color: '#334155' }}>{client.company}</td>
                   <td style={{ padding: '0.75rem 0.75rem' }}>
                     <div style={{ display: 'flex', gap: '0.35rem' }}>
-                      <button title="Call" style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#059669' }}><Phone size={13} /></button>
-                      <button title="Email" style={{ background: 'rgba(37, 99, 235, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#2563EB' }}><Mail size={13} /></button>
-                      <button title="WhatsApp" style={{ background: 'rgba(34, 197, 94, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#16A34A' }}><MessageCircle size={13} /></button>
+                      <button 
+                        title="Call" 
+                        onClick={() => {
+                          setActiveCall(client);
+                          setCallDuration(0);
+                          const interval = setInterval(() => {
+                            setCallDuration(d => d + 1);
+                          }, 1000);
+                          setCallTimer(interval);
+                        }}
+                        style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#059669', cursor: 'pointer' }}
+                      >
+                        <Phone size={13} />
+                      </button>
+
+                      <button 
+                        title="Email" 
+                        onClick={() => {
+                          setActiveMail(client);
+                          setEmailSubject(`Project onboarding follow-up: ${client.company}`);
+                          setEmailBody(`Hi ${client.contactPerson || client.name},\n\nWe are checking in regarding your onboarding status for the ${client.service || 'project'} project.\n\nBest Regards,\nGNZ CRM Team`);
+                        }}
+                        style={{ background: 'rgba(37, 99, 235, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#2563EB', cursor: 'pointer' }}
+                      >
+                        <Mail size={13} />
+                      </button>
+
+                      <button 
+                        title="WhatsApp" 
+                        onClick={() => {
+                          setActiveWhatsApp(client);
+                          setWhatsappMessage(`Hello ${client.contactPerson || client.name}, this is GNZ CRM team checking in on your project: ${client.service || 'System Onboarding'}. How is everything going?`);
+                        }}
+                        style={{ background: 'rgba(34, 197, 94, 0.1)', border: 'none', borderRadius: '6px', padding: '0.3rem', color: '#16A34A', cursor: 'pointer' }}
+                      >
+                        <MessageCircle size={13} />
+                      </button>
                     </div>
                   </td>
                   <td style={{ padding: '0.75rem 0.75rem' }}>
@@ -323,6 +367,168 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
                 <button type="submit" className="btn-primary" style={{ fontSize: '0.8rem' }}>Save Changes</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Smart Dialer Overlay ─── */}
+      {activeCall && (
+        <div style={{
+          position: 'fixed', bottom: '2rem', right: '2rem',
+          width: '320px', background: '#0F172A', color: '#FFFFFF',
+          borderRadius: '16px', padding: '1.5rem', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+          display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 1100,
+          border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'Inter, sans-serif'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.72rem', color: '#38BDF8', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              GNZ Smart Dialer
+            </span>
+            <span className="badge badge-emerald" style={{ fontSize: '0.65rem' }}>Active Connection</span>
+          </div>
+
+          <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 900 }}>{activeCall.company}</div>
+            <div style={{ fontSize: '0.85rem', color: '#94A3B8', marginTop: '0.15rem' }}>{activeCall.name}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#38BDF8', marginTop: '0.5rem' }}>{activeCall.phone || 'N/A'}</div>
+            
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, marginTop: '1rem', fontFamily: 'monospace', color: '#10B981' }}>
+              {Math.floor(callDuration / 60)}:{String(callDuration % 60).padStart(2, '0')}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button 
+              onClick={() => {
+                if (callTimer) clearInterval(callTimer);
+                setActiveCall(null);
+              }}
+              style={{
+                flex: 1, padding: '0.75rem', background: '#EF4444', color: '#FFFFFF',
+                border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer',
+                textAlign: 'center', fontSize: '0.85rem'
+              }}
+            >
+              End Call
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Smart Email Composer ─── */}
+      {activeMail && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1100
+        }}>
+          <div className="glass-card" style={{ padding: '2rem', width: '100%', maxWidth: '560px', background: '#FFFFFF', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A', margin: 0 }}>
+                ✉️ Send Client Email
+              </h3>
+              <button 
+                onClick={() => setActiveMail(null)}
+                style={{ background: 'transparent', border: 'none', fontSize: '1.2rem', color: '#64748B', cursor: 'pointer', fontWeight: 'bold' }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.5rem' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>To:</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0F172A' }}>{activeMail.name} &lt;{activeMail.email || 'client@company.com'}&gt;</span>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>Subject</label>
+                <input 
+                  type="text" 
+                  value={emailSubject}
+                  onChange={(e) => setEmailSubject(e.target.value)}
+                  style={{ width: '100%', padding: '0.55rem', background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', color: '#0F172A', marginTop: '0.3rem', fontSize: '0.85rem' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>Email Message</label>
+                <textarea 
+                  value={emailBody}
+                  onChange={(e) => setEmailBody(e.target.value)}
+                  rows={6}
+                  style={{ width: '100%', padding: '0.65rem', background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', color: '#0F172A', marginTop: '0.3rem', fontSize: '0.85rem', resize: 'vertical' }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
+                <button type="button" className="btn-secondary" onClick={() => setActiveMail(null)} style={{ fontWeight: 600 }}>Cancel</button>
+                <button 
+                  onClick={() => {
+                    alert('Email sent successfully!');
+                    setActiveMail(null);
+                  }}
+                  className="btn-primary" 
+                  style={{ fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                >
+                  Send Mail
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Smart WhatsApp Composers ─── */}
+      {activeWhatsApp && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1100
+        }}>
+          <div className="glass-card" style={{ padding: '2rem', width: '100%', maxWidth: '480px', background: '#FFFFFF', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MessageCircle size={22} color="#16A34A" /> WhatsApp message
+              </h3>
+              <button 
+                onClick={() => setActiveWhatsApp(null)}
+                style={{ background: 'transparent', border: 'none', fontSize: '1.2rem', color: '#64748B', cursor: 'pointer', fontWeight: 'bold' }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.5rem' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>To Number:</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0f172a' }}>{activeWhatsApp.phone || 'N/A'}</span>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#475569' }}>Template Message</label>
+                <textarea 
+                  value={whatsappMessage}
+                  onChange={(e) => setWhatsappMessage(e.target.value)}
+                  rows={4}
+                  style={{ width: '100%', padding: '0.65rem', background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', color: '#0F172A', marginTop: '0.3rem', fontSize: '0.85rem', resize: 'vertical' }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
+                <button type="button" className="btn-secondary" onClick={() => setActiveWhatsApp(null)} style={{ fontWeight: 600 }}>Cancel</button>
+                <button 
+                  onClick={() => {
+                    alert('WhatsApp Message dispatched!');
+                    setActiveWhatsApp(null);
+                  }}
+                  className="btn-primary" 
+                  style={{ fontWeight: 600, background: '#16A34A', border: 'none', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.25)' }}
+                >
+                  Send WhatsApp
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
