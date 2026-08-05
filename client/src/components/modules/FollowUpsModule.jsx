@@ -161,7 +161,7 @@ export default function FollowUpsModule({ onTriggerAI }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#0F172A', letterSpacing: '-0.025em' }}>
-            📅 Client Follow-Ups
+            Client Follow-Ups
           </h2>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             Schedule, manage, and execute pipeline contact reminders with smart triage
@@ -450,7 +450,7 @@ export default function FollowUpsModule({ onTriggerAI }) {
             
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0F172A', letterSpacing: '-0.02em', margin: 0 }}>
-                📅 Schedule Client Follow Up
+                Schedule Client Follow Up
               </h3>
               <button 
                 onClick={() => setShowModal(false)}
@@ -529,9 +529,9 @@ export default function FollowUpsModule({ onTriggerAI }) {
                     onChange={(e) => setPriority(e.target.value)} 
                     style={{ width: '100%', padding: '0.65rem', background: '#F8FAFC', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#0F172A', marginTop: '0.3rem', fontSize: '0.85rem' }}
                   >
-                    <option value="Urgent">🚨 Urgent</option>
-                    <option value="High">🔥 High</option>
-                    <option value="Medium">⚡ Medium</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
                   </select>
                 </div>
                 <div>
@@ -541,8 +541,8 @@ export default function FollowUpsModule({ onTriggerAI }) {
                     onChange={(e) => setContactMethod(e.target.value)} 
                     style={{ width: '100%', padding: '0.65rem', background: '#F8FAFC', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#0F172A', marginTop: '0.3rem', fontSize: '0.85rem' }}
                   >
-                    <option value="Email">📧 Email</option>
-                    <option value="Phone">📞 Phone</option>
+                    <option value="Email">Email</option>
+                    <option value="Phone">Phone</option>
                   </select>
                 </div>
               </div>
