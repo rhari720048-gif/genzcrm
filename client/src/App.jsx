@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, Handshake, Rocket, Code, TestTube, DollarSign, 
   Megaphone, Smartphone, Landmark, UserCheck, HeartHandshake, Headphones, 
   MessageSquare, BarChart3, Bot, Settings, Search, ChevronDown, ChevronRight, 
-  Sparkles, Layers, Bell 
+  Sparkles, Layers, Bell, ShieldCheck, Lock
 } from 'lucide-react';
 
 import MasterControlViews from './components/views/MasterControlViews';
@@ -306,54 +306,93 @@ export default function App() {
         
         {/* Master Top Header Bar */}
         <header style={{ 
-          height: '65px', 
+          height: '68px', 
           borderBottom: '1px solid var(--border-subtle)', 
-          background: 'rgba(255, 255, 255, 0.95)', 
-          backdropFilter: 'blur(12px)',
+          background: 'rgba(255, 255, 255, 0.92)', 
+          backdropFilter: 'blur(16px)',
           display: 'flex', 
           alignItems: 'center', 
-          justify: 'space-between',
-          padding: '0 2rem',
+          justifyContent: 'space-between',
+          padding: '0 1.75rem',
           position: 'sticky',
           top: 0,
-          zIndex: 100
+          zIndex: 100,
+          boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.03)'
         }}>
           
-          {/* Breadcrumb Path */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            <Layers size={16} color="#7C3AED" />
-            <span>Master Control</span>
-            <ChevronRight size={14} />
-            <span style={{ textTransform: 'capitalize', fontWeight: 600 }}>{activeCategory}</span>
-            <ChevronRight size={14} />
-            <span style={{ fontWeight: 800, color: '#0F172A' }}>{activeSubModule}</span>
+          {/* Left: Logo & Breadcrumb Path */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              borderRadius: '10px',
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%)',
+              border: '1px solid rgba(124, 58, 237, 0.2)'
+            }}>
+              <img src="/genz-logo-cropped.png" alt="GenZ Logo" style={{ width: '22px', height: '22px', objectFit: 'contain' }} />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              <span style={{ fontWeight: 600, color: '#64748B' }}>Master Control</span>
+              <ChevronRight size={14} color="#94A3B8" />
+              <span style={{ textTransform: 'capitalize', fontWeight: 600, color: '#475569' }}>{activeCategory}</span>
+              <ChevronRight size={14} color="#94A3B8" />
+              <span style={{ fontWeight: 800, color: '#0F172A', background: 'linear-gradient(135deg, #7C3AED 0%, #0891B2 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{activeSubModule}</span>
+            </div>
           </div>
 
-          {/* Master Search */}
-          <div className="glass-card" style={{ width: '380px', padding: '0.45rem 0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#F8FAFC' }}>
-            <Search size={16} color="var(--text-dim)" />
+          {/* Center: Master Search Bar */}
+          <div className="glass-card" style={{ 
+            width: '420px', 
+            padding: '0.5rem 0.95rem', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.6rem', 
+            background: '#F8FAFC',
+            border: '1px solid #E2E8F0',
+            borderRadius: '12px'
+          }}>
+            <Search size={16} color="#7C3AED" />
             <input 
               type="text" 
-              placeholder="Search across all 103 sub-modules & database records..." 
-              style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', color: '#0F172A', fontSize: '0.85rem' }} 
+              placeholder="Search sub-modules, records or AI commands..." 
+              style={{ width: '100%', background: 'transparent', border: 'none', outline: 'none', color: '#0F172A', fontSize: '0.85rem', fontWeight: 500 }} 
             />
           </div>
 
-          {/* Header Badges & Sign Out Button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span className="badge badge-violet">
-              👑 Role: {userRole}
+          {/* Right: User Role Badges & Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span className="badge badge-violet" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.8rem', fontWeight: 700 }}>
+              <ShieldCheck size={14} color="#7C3AED" />
+              <span>Role: {userRole}</span>
             </span>
-            <span className="badge badge-emerald">
-              103 Modules Connected
+
+            <span className="badge badge-emerald" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.8rem', fontWeight: 700 }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#059669', display: 'inline-block' }}></span>
+              103 Connected
             </span>
 
             <button 
               className="btn-secondary"
               onClick={() => setIsAuthenticated(false)}
-              style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem', color: '#E11D48', border: '1px solid rgba(225, 29, 72, 0.2)' }}
+              style={{ 
+                fontSize: '0.8rem', 
+                padding: '0.45rem 0.9rem', 
+                color: '#E11D48', 
+                background: 'rgba(225, 29, 72, 0.05)',
+                border: '1px solid rgba(225, 29, 72, 0.2)',
+                borderRadius: '10px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                cursor: 'pointer'
+              }}
             >
-              🔒 Lock Screen
+              <Lock size={14} color="#E11D48" /> Lock Screen
             </button>
           </div>
 
