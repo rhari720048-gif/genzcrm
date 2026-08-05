@@ -25,62 +25,10 @@ export default function App() {
   const [sidebarSearch, setSidebarSearch] = useState('');
   const [convertedClients, setConvertedClients] = useState([]);
   const [clientProjects, setClientProjects] = useState([]);
-  const [projectHistoryList, setProjectHistoryList] = useState([
-    {
-      id: 'genz-H-01',
-      projectName: 'Legacy Website Redeployment',
-      assignedTo: 'Deepak V',
-      completedAt: '2026-08-04 05:30 PM'
-    }
-  ]);
+  const [projectHistoryList, setProjectHistoryList] = useState([]);
 
   // Shared Follow-Ups Database State
-  const [followUpsList, setFollowUpsList] = useState([
-    { 
-      id: 'genz-F-2026-01', 
-      client: 'Quantum AI Systems', 
-      task: 'Send SaaS architecture proposal & pricing quote', 
-      dueDate: '2026-08-05', 
-      dueTime: '03:00 PM', 
-      priority: 'Urgent', 
-      status: 'pending',
-      contactPerson: 'Marcus Vance (CEO)',
-      email: 'marcus@quantum.ai'
-    },
-    { 
-      id: 'genz-F-2026-02', 
-      client: 'Global Logistics Corp', 
-      task: 'Call CTO to confirm SLA signing ceremony timeline', 
-      dueDate: '2026-08-06', 
-      dueTime: '11:30 AM', 
-      priority: 'High', 
-      status: 'pending',
-      contactPerson: 'Sarah Jenkins (CTO)',
-      phone: '+1 212-555-0144'
-    },
-    { 
-      id: 'genz-F-2026-03', 
-      client: 'CarePulse Health', 
-      task: 'Verify onboarding document upload status', 
-      dueDate: '2026-08-05', 
-      dueTime: '05:00 PM', 
-      priority: 'Medium', 
-      status: 'pending',
-      contactPerson: 'Dr. Jane Foster',
-      email: 'jane.foster@carepulse.com'
-    },
-    { 
-      id: 'genz-F-2026-04', 
-      client: 'PaySwift Fintech', 
-      task: 'Send API v3 security checklist to development lead', 
-      dueDate: '2026-08-04', 
-      dueTime: '04:00 PM', 
-      priority: 'High', 
-      status: 'completed',
-      contactPerson: 'Ravi Kumar',
-      email: 'ravi.kumar@payswift.com'
-    }
-  ]);
+  const [followUpsList, setFollowUpsList] = useState([]);
 
   const handleAddFollowUpFromLead = (newFollowUp) => {
     setFollowUpsList(prev => {

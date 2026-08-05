@@ -5,20 +5,8 @@ import {
   DollarSign, CheckCircle2, Star, ShieldCheck, FileText, ArrowUpRight, Clock, AlertCircle
 } from 'lucide-react';
 
-const INITIAL_PROJECTS = [
-  {
-    id: 'genz-P-2026-001',
-    projectName: 'EduStar Academy Web Portal',
-    clientName: 'Anita Sharma',
-    company: 'EduStar Academy',
-    service: 'Digital Marketing & Web',
-    budget: '₹2,50,000',
-    status: 'In Progress',
-    deadline: '2026-09-30',
-    assignedTo: 'Karthik R',
-    createdDate: '2026-07-30'
-  }
-];
+const INITIAL_PROJECTS = [];
+
 
 const PROJECT_STATUSES = ['Planning', 'In Progress', 'In Review', 'Completed', 'On Hold'];
 

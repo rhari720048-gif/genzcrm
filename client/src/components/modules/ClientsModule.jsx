@@ -5,28 +5,7 @@ import {
   DollarSign, CheckCircle2, Star, ShieldCheck, FileText, ArrowUpRight, Rocket
 } from 'lucide-react';
 
-const INITIAL_CLIENTS = [
-  {
-    id: 'genz-C-2026-001',
-    name: 'Anita Sharma',
-    company: 'EduStar Academy',
-    contactPerson: 'Anita Sharma',
-    email: 'anita@edustar.co.in',
-    phone: '+91 76543 21098',
-    whatsapp: '+91 76543 21098',
-    website: 'edustar.co.in',
-    country: 'India',
-    state: 'Maharashtra',
-    city: 'Mumbai',
-    industry: 'Education',
-    service: 'Digital Marketing',
-    budget: '₹2,50,000',
-    status: 'Active',
-    assignedTo: 'Karthik R',
-    convertedDate: '2026-07-30',
-    source: 'Facebook'
-  }
-];
+const INITIAL_CLIENTS = [];
 
 const CLIENT_STATUSES = ['Active', 'Onboarding', 'Completed', 'Inactive', 'Suspended'];
 
