@@ -12,6 +12,7 @@ import DetailedPartnershipModule from './components/modules/DetailedPartnershipM
 import LeadsModule from './components/modules/LeadsModule';
 import ClientsModule from './components/modules/ClientsModule';
 import ProjectsModule from './components/modules/ProjectsModule';
+import ProjectsHistoryModule from './components/modules/ProjectsHistoryModule';
 import LoginPage from './components/auth/LoginPage';
 import AIAgentCopilot from './components/ai/AIAgentCopilot';
 import GenZLogo from './components/common/GenZLogo';
@@ -24,6 +25,14 @@ export default function App() {
   const [sidebarSearch, setSidebarSearch] = useState('');
   const [convertedClients, setConvertedClients] = useState([]);
   const [clientProjects, setClientProjects] = useState([]);
+  const [projectHistoryList, setProjectHistoryList] = useState([
+    {
+      id: 'genz-H-01',
+      projectName: 'Legacy Website Redeployment',
+      assignedTo: 'Deepak V',
+      completedAt: '2026-08-04 05:30 PM'
+    }
+  ]);
 
   // Shared Follow-Ups Database State
   const [followUpsList, setFollowUpsList] = useState([
@@ -136,7 +145,7 @@ export default function App() {
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, subModules: ['Overview'] },
     { id: 'crm', label: 'CRM', icon: <Users size={18} />, subModules: ['Leads', 'Follow Ups', 'Clients'] },
     { id: 'bizdev', label: 'Business Development', icon: <Handshake size={18} />, subModules: ['Partnerships', 'Agencies', 'White Label Partners', 'Resellers', 'International Clients', 'Meetings', 'Email Center'] },
-    { id: 'projects', label: 'Projects', icon: <Rocket size={18} />, subModules: ['Projects', 'Products', 'Tasks', 'Milestones', 'Sprint Board', 'Time Tracking', 'Files', 'Documentation'] },
+    { id: 'projects', label: 'Projects', icon: <Rocket size={18} />, subModules: ['Projects', 'Products', 'Tasks', 'Milestones', 'Sprint Board', 'Time Tracking', 'Files', 'Documentation', 'History'] },
     { id: 'development', label: 'Development', icon: <Code size={18} />, subModules: ['GitHub', 'Repositories', 'Branches', 'Pull Requests', 'Deployments', 'API Keys', 'Environments'] },
     { id: 'qa', label: 'Testing (QA)', icon: <TestTube size={18} />, subModules: ['Bug Tracker', 'Test Cases', 'Test Runs', 'Regression Testing', 'Security Scan', 'Performance Testing', 'AI Code Analysis'] },
     { id: 'sales', label: 'Sales', icon: <DollarSign size={18} />, subModules: ['Quotations', 'Contracts', 'Invoices', 'Payments', 'Revenue', 'Refunds'] },
@@ -449,6 +458,12 @@ export default function App() {
             <ProjectsModule 
               projectsList={clientProjects} 
               setProjectsList={setClientProjects} 
+              projectHistoryList={projectHistoryList}
+              setProjectHistoryList={setProjectHistoryList}
+            />
+          ) : activeSubModule === 'History' ? (
+            <ProjectsHistoryModule 
+              historyList={projectHistoryList}
             />
           ) : (
             <MasterControlViews 
