@@ -234,254 +234,155 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
         </div>
       </div>
 
-      {/* Grid of Cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {filteredList.length === 0 ? (
-          <div style={{ 
-            background: '#FFFFFF', 
-            border: '1px solid var(--border-subtle)', 
-            borderRadius: '16px', 
-            padding: '4rem 2rem', 
-            textAlign: 'center' 
-          }}>
-            <Calendar size={44} color="#CBD5E1" style={{ margin: '0 auto 1rem' }} />
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0F172A', marginBottom: '0.35rem' }}>No Follow-Ups Found</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>There are no follow up items matching your selection filters.</p>
-          </div>
-        ) : (
-          filteredList.map(item => {
-            const isCompleted = item.status === 'completed';
-            const isOverdue = item.status === 'pending' && item.dueDate < todayStr;
-
-            return (
-              <div 
-                key={item.id} 
-                className="glass-card" 
-                style={{ 
-                  padding: '1.25rem',
-                  background: isCompleted ? '#FAFAFA' : '#FFFFFF',
-                  opacity: isCompleted ? 0.78 : 1,
-                  borderLeft: `5px solid ${
-                    isCompleted ? '#E2E8F0' :
-                    isOverdue ? '#EF4444' :
-                    item.priority === 'Urgent' ? '#7C3AED' :
-                    item.priority === 'High' ? '#F59E0B' : '#0891B2'
-                  }`,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                  gap: '1.25rem'
-                }}
-              >
-                {/* Left Info Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', flex: 1, minWidth: '280px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-                    <h3 style={{ 
-                      fontSize: '1.1rem', 
-                      fontWeight: 800, 
-                      color: isCompleted ? '#64748B' : '#0F172A',
-                      textDecoration: isCompleted ? 'line-through' : 'none',
-                      margin: 0
-                    }}>
-                      {item.client}
-                    </h3>
-                    
-                    {/* Priority Badge */}
-                    {!isCompleted && (
+      {/* ─── Follow Ups Table ───────────────────────────────────────── */}
+      <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.82rem' }}>
+            <thead>
+              <tr style={{ background: '#F8FAFC', borderBottom: '2px solid #E2E8F0' }}>
+                <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>SCHEDULE ID</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>CLIENT / COMPANY</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>CONTACT PERSON</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>FOLLOW-UP TASK & NOTES</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>DUE DATE & TIME</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>PRIORITY</th>
+                <th style={{ padding: '0.85rem 0.75rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em' }}>STATUS</th>
+                <th style={{ padding: '0.85rem 1rem', fontWeight: 700, color: '#64748B', fontSize: '0.72rem', letterSpacing: '0.04em', textAlign: 'center' }}>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredList.length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <Calendar size={44} color="#CBD5E1" style={{ margin: '0 auto 1rem' }} />
+                    <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>No Follow-Ups Found</div>
+                    <div style={{ fontSize: '0.78rem', marginTop: '0.2rem' }}>There are no follow up items matching your selection filters.</div>
+                  </td>
+                </tr>
+              ) : filteredList.map((item, idx) => {
+                const isCompleted = item.status === 'completed';
+                const isOverdue = item.status === 'pending' && item.dueDate < todayStr;
+                
+                return (
+                  <tr key={item.id} style={{
+                    borderBottom: '1px solid #F1F5F9',
+                    background: idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC',
+                    transition: 'background 0.15s ease',
+                    cursor: 'pointer',
+                    opacity: isCompleted ? 0.75 : 1
+                  }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#F0F4FF'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC'}
+                  >
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem' }}>{item.id}</td>
+                    <td style={{ padding: '0.75rem 0.75rem' }}>
+                      <div style={{ fontWeight: 700, color: '#0F172A' }}>{item.client}</div>
+                    </td>
+                    <td style={{ padding: '0.75rem 0.75rem' }}>
+                      <div style={{ fontWeight: 600, color: '#334155' }}>{item.contactPerson || '—'}</div>
+                      <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.15rem' }}>
+                        {item.email && <span style={{ fontSize: '0.7rem', color: '#7C3AED', display: 'inline-flex', alignItems: 'center', gap: '0.15rem' }}><Mail size={10} /> {item.email}</span>}
+                        {item.phone && <span style={{ fontSize: '0.7rem', color: '#0891B2', display: 'inline-flex', alignItems: 'center', gap: '0.15rem' }}><Phone size={10} /> {item.phone}</span>}
+                      </div>
+                    </td>
+                    <td style={{ padding: '0.75rem 0.75rem', maxWidth: '300px' }}>
+                      <div style={{ color: '#475569', fontWeight: 500, whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.3' }}>{item.task}</div>
+                    </td>
+                    <td style={{ padding: '0.75rem 0.75rem' }}>
+                      <div style={{ fontWeight: 700, color: isOverdue ? '#EF4444' : '#0F172A', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <Calendar size={12} /> {item.dueDate === todayStr ? 'Today' : item.dueDate}
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: '#64748B', display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.1rem' }}>
+                        <Clock size={11} /> {item.dueTime}
+                      </div>
+                    </td>
+                    <td style={{ padding: '0.75rem 0.75rem' }}>
                       <span className={`badge ${
                         item.priority === 'Urgent' ? 'badge-rose' :
                         item.priority === 'High' ? 'badge-amber' : 'badge-cyan'
                       }`} style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
                         {item.priority}
                       </span>
-                    )}
+                    </td>
+                    <td style={{ padding: '0.75rem 0.75rem' }}>
+                      {isCompleted ? (
+                        <span className="badge badge-emerald" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>Completed</span>
+                      ) : isOverdue ? (
+                        <span className="badge badge-rose" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}>
+                          <AlertCircle size={10} /> Overdue
+                        </span>
+                      ) : (
+                        <span className="badge badge-cyan" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>Pending</span>
+                      )}
+                    </td>
+                    <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
+                      <div style={{ display: 'flex', gap: '0.35rem', justifyContent: 'center' }}>
+                        <button
+                          onClick={() => {
+                            if (confirm(`Convert client "${item.client}" from Follow-up directly to Clients list?`)) {
+                              setFollowUps(prev => prev.filter(f => f.id !== item.id));
+                              alert(`🎉 Client "${item.client}" converted & transferred to Clients Portal!`);
+                            }
+                          }}
+                          style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}
+                          title="Convert to Client"
+                        >
+                          <User size={14} />
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            setActiveCall(item);
+                            setCallDuration(0);
+                            const interval = setInterval(() => {
+                              setCallDuration(d => d + 1);
+                            }, 1000);
+                            setCallTimer(interval);
+                          }}
+                          style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}
+                          title="Quick Call"
+                        >
+                          <Phone size={13} />
+                        </button>
 
-                    {isCompleted && (
-                      <span className="badge badge-emerald" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
-                        Completed
-                      </span>
-                    )}
+                        <button
+                          onClick={() => {
+                            setActiveMail(item);
+                            setEmailSubject(`Follow-up proposal: ${item.client}`);
+                            setEmailBody(`Hi ${item.contactPerson || 'there'},\n\nWe would like to follow up regarding: ${item.task}.\n\nBest Regards,\nGNZ CRM Team`);
+                          }}
+                          style={{ background: 'rgba(37, 99, 235, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#2563EB' }}
+                          title="Send Mail"
+                        >
+                          <Mail size={13} />
+                        </button>
 
-                    {isOverdue && (
-                      <span className="badge badge-rose" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}>
-                        <AlertCircle size={10} /> Overdue
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Task Text */}
-                  <p style={{ 
-                    fontSize: '0.9rem', 
-                    color: isCompleted ? '#94A3B8' : '#334155',
-                    margin: 0,
-                    lineHeight: 1.4
-                  }}>
-                    {item.task}
-                  </p>
-
-                  {/* Contact Person Details */}
-                  {item.contactPerson && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.78rem', color: '#64748B', fontWeight: 600 }}>
-                      <User size={13} color="#94A3B8" />
-                      <span>Contact: <strong>{item.contactPerson}</strong></span>
-                      {item.email && <span style={{ color: '#7C3AED', display: 'flex', alignItems: 'center', gap: '0.2rem' }}><Mail size={12} /> {item.email}</span>}
-                      {item.phone && <span style={{ color: '#0891B2', display: 'flex', alignItems: 'center', gap: '0.2rem' }}><Phone size={12} /> {item.phone}</span>}
-                    </div>
-                  )}
-                </div>
-
-                {/* Right Action/Date Column */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', justifyContent: 'space-between', minWidth: '220px' }}>
-                  {/* Due Date Indicator */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', textAlign: 'right' }}>
-                    <div style={{ 
-                      fontSize: '0.82rem', 
-                      fontWeight: 800, 
-                      color: isOverdue ? '#EF4444' : '#0F172A',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem',
-                      justifyContent: 'flex-end'
-                    }}>
-                      <Calendar size={13} /> {item.dueDate === todayStr ? 'Today' : item.dueDate}
-                    </div>
-                    <div style={{ fontSize: '0.74rem', color: '#64748B', display: 'flex', alignItems: 'center', gap: '0.3rem', justifyContent: 'flex-end' }}>
-                      <Clock size={12} /> {item.dueTime}
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div style={{ display: 'flex', gap: '0.45rem' }}>
-                    <button
-                      onClick={() => {
-                        if (confirm(`Convert client "${item.client}" from Follow-up directly to Clients list?`)) {
-                          // Remove from follow ups
-                          setFollowUps(prev => prev.filter(f => f.id !== item.id));
-                          
-                          // Trigger client convert callback (if passed down, or mock it)
-                          alert(`🎉 Client "${item.client}" converted & transferred to Clients Portal!`);
-                        }
-                      }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(5, 150, 105, 0.2)',
-                        background: '#FFFFFF',
-                        color: '#059669',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
-                      title="Convert to Client"
-                    >
-                      <User size={16} />
-                    </button>
-
-                    {/* Smart Communication actions instead of mark to complete toggle */}
-                    <button
-                      onClick={() => {
-                        setActiveCall(item);
-                        setCallDuration(0);
-                        const interval = setInterval(() => {
-                          setCallDuration(d => d + 1);
-                        }, 1000);
-                        setCallTimer(interval);
-                      }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(5, 150, 105, 0.2)',
-                        background: '#FFFFFF',
-                        color: '#059669',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
-                      title="Quick Call"
-                    >
-                      <Phone size={14} />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveMail(item);
-                        setEmailSubject(`Follow-up proposal: ${item.client}`);
-                        setEmailBody(`Hi ${item.contactPerson || 'there'},\n\nWe would like to follow up regarding: ${item.task}.\n\nBest Regards,\nGNZ CRM Team`);
-                      }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(37, 99, 235, 0.2)',
-                        background: '#FFFFFF',
-                        color: '#2563EB',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
-                      title="Send Mail"
-                    >
-                      <Mail size={14} />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveWhatsApp(item);
-                        setWhatsappMessage(`Hello ${item.contactPerson || item.client}, this is GNZ CRM following up on your project requirements: ${item.task}`);
-                      }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(34, 197, 94, 0.2)',
-                        background: '#FFFFFF',
-                        color: '#16A34A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
-                      title="WhatsApp"
-                    >
-                      <MessageCircle size={14} />
-                    </button>
-                    
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(239, 68, 68, 0.2)',
-                        background: '#FFFFFF',
-                        color: '#EF4444',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
-                      title="Delete Schedule"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-            );
-          })
-        )}
+                        <button
+                          onClick={() => {
+                            setActiveWhatsApp(item);
+                            setWhatsappMessage(`Hello ${item.contactPerson || item.client}, this is GNZ CRM following up on your project requirements: ${item.task}`);
+                          }}
+                          style={{ background: 'rgba(34, 197, 94, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#16A34A' }}
+                          title="WhatsApp"
+                        >
+                          <MessageCircle size={13} />
+                        </button>
+                        
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          style={{ background: 'rgba(225, 29, 72, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#E11D48' }}
+                          title="Delete Schedule"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* New Follow-Up Drawer Modal */}
