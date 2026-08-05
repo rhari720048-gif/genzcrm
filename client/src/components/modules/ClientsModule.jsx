@@ -206,7 +206,7 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
                 </tr>
               ) : filteredClients.map((client, idx) => (
                 <tr key={client.id} style={{ borderBottom: '1px solid #F1F5F9', background: idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC' }}>
-                  <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#059669', fontSize: '0.78rem' }}>{client.id}</td>
+                  <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#059669', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>{client.id}</td>
                   <td style={{ padding: '0.75rem 0.75rem' }}>
                     <div style={{ fontWeight: 700, color: '#0F172A' }}>{client.name}</div>
                     <div style={{ fontSize: '0.72rem', color: '#94A3B8' }}>{client.email}</div>

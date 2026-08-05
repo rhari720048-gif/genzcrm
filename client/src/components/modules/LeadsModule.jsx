@@ -497,7 +497,7 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                     onMouseEnter={(e) => e.currentTarget.style.background = '#F0F4FF'}
                     onMouseLeave={(e) => e.currentTarget.style.background = idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC'}
                   >
-                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem' }}>{lead.id}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>{lead.id}</td>
                     <td style={{ padding: '0.75rem 0.75rem' }}>
                       <div style={{ fontWeight: 700, color: '#0F172A' }}>{lead.name}</div>
                       <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: '0.15rem' }}>{lead.email}</div>

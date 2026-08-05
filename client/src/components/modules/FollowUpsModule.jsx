@@ -278,7 +278,7 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
                     onMouseEnter={(e) => e.currentTarget.style.background = '#F0F4FF'}
                     onMouseLeave={(e) => e.currentTarget.style.background = idx % 2 === 0 ? '#FFFFFF' : '#FAFBFC'}
                   >
-                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem' }}>{item.id}</td>
+                    <td style={{ padding: '0.75rem 1rem', fontWeight: 700, color: '#7C3AED', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>{item.id}</td>
                     <td style={{ padding: '0.75rem 0.75rem' }}>
                       <div style={{ fontWeight: 700, color: '#0F172A' }}>{item.client}</div>
                     </td>
