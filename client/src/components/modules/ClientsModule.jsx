@@ -105,7 +105,7 @@ export default function ClientsModule({ clientsList = [], onConvertToProject }) 
           deadline: '2026-10-31',
           assignedTo: client.assignedTo || 'Unassigned',
           createdDate: new Date().toISOString().split('T')[0]
-        });
+        }, client.id);
       }
       alert(`🚀 Project "${client.company} - ${client.service}" created successfully in Projects Hub!`);
     }

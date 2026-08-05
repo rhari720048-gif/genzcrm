@@ -92,12 +92,20 @@ export default function App() {
     });
   };
 
-  const handleConvertToProjectData = (newProject) => {
+  const handleConvertToProjectData = (newProject, clientId) => {
+    // Append to Projects database list
     setClientProjects(prev => {
       const nextNum = prev.length + 1;
       const formattedId = `genz-prj-2026-${String(nextNum).padStart(3, '0')}`;
       return [{ ...newProject, id: formattedId }, ...prev];
     });
+
+    // Remove from Clients database list
+    setConvertedClients(prev => prev.filter(c => c.id !== clientId));
+
+    // Redirect to Projects submodule
+    setActiveCategory('projects');
+    setActiveSubModule('Projects');
   };
   
   // Track open accordion sections
