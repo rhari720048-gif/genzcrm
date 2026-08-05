@@ -229,7 +229,8 @@ export default function ProjectsModule({
                                       id: `genz-H-${String(prev.length + 1).padStart(2, '0')}`,
                                       projectName: prj.projectName,
                                       assignedTo: prj.assignedTo || 'Unassigned',
-                                      completedAt: formattedTime
+                                      completedAt: formattedTime,
+                                      details: prj // Include all fields (budget, service, client, company) for historical view
                                     },
                                     ...prev
                                   ]);
