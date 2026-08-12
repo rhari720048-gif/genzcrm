@@ -236,12 +236,29 @@ const masterStore = {
 };
 
 // REST API Endpoints
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', server: 'IPPA Master Control Admin Panel' });
+});
+
 app.get('/api/master/:category', (req, res) => {
   const { category } = req.params;
   const data = masterStore[category] || masterStore.dashboard;
   res.json(data);
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 IPPA Master Control Admin Panel Server running on http://localhost:${PORT}`);
+app.post('/api/ai-agents/trigger', (req, res) => {
+  const { agentId, query } = req.body || {};
+  res.json({
+    agentName: 'OpsAgent (AI)',
+    result: `⚡ Successfully processed operational task analysis for query: "${query || 'system diagnostic'}". All 17 department modules synchronized.`,
+    avatar: '🤖'
+  });
 });
+
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 IPPA Master Control Admin Panel Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;

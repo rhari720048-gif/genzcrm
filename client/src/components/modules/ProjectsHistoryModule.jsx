@@ -92,10 +92,10 @@ export default function ProjectsHistoryModule({ historyList = [], setHistoryList
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(6px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1.5rem'
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem', overflowY: 'auto'
         }}>
-          <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '1.75rem', maxWidth: '520px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.25)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.75rem' }}>
+          <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '1.25rem 1.5rem', maxWidth: '560px', width: '100%', maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 25px 60px rgba(0,0,0,0.25)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.65rem' }}>
               <div>
                 <span className="badge badge-emerald" style={{ fontSize: '0.65rem', marginBottom: '0.2rem' }}>Audit Overview</span>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0F172A', margin: 0 }}>Project Completion Details</h3>
@@ -111,7 +111,7 @@ export default function ProjectsHistoryModule({ historyList = [], setHistoryList
               
               <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>
                 <span style={{ fontWeight: 700, color: '#64748B' }}>Project Name:</span>
-                <span style={{ fontWeight: 800, color: '#0F172A', textDecoration: 'line-through' }}>{viewHistory.projectName}</span>
+                <span style={{ fontWeight: 800, color: '#0F172A' }}>{viewHistory.projectName}</span>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', borderBottom: '1px dashed #F1F5F9', paddingBottom: '0.55rem' }}>

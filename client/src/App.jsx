@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// Main GNZ CRM Application Container
 import { 
   LayoutDashboard, Users, Handshake, Rocket, Code, TestTube, DollarSign, 
   Megaphone, Smartphone, Landmark, UserCheck, HeartHandshake, Headphones, 
@@ -14,9 +15,9 @@ import ClientsModule from './components/modules/ClientsModule';
 import ProjectsModule from './components/modules/ProjectsModule';
 import ProjectsHistoryModule from './components/modules/ProjectsHistoryModule';
 import LoginPage from './components/auth/LoginPage';
-import AIAgentCopilot from './components/ai/AIAgentCopilot';
 import GenZLogo from './components/common/GenZLogo';
 import FollowUpsModule from './components/modules/FollowUpsModule';
+import DigitalMarketingModule from './components/modules/DigitalMarketingModule';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -399,12 +400,14 @@ export default function App() {
 
         {/* Dynamic Category Engine Renderer */}
         <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
-          {activeSubModule === 'Leads' ? (
+          {activeCategory === 'digitalMarketing' ? (
+            <DigitalMarketingModule initialSubModule={activeSubModule} />
+          ) : activeSubModule === 'Leads' ? (
             <LeadsModule onConvertClient={handleConvertClientData} onScheduleFollowUp={handleAddFollowUpFromLead} />
           ) : activeSubModule === 'Follow Ups' ? (
-            <FollowUpsModule followUps={followUpsList} setFollowUps={setFollowUpsList} onTriggerAI={handleTriggerAI} />
+            <FollowUpsModule followUps={followUpsList} setFollowUps={setFollowUpsList} onTriggerAI={handleTriggerAI} onConvertClient={handleConvertClientData} />
           ) : activeSubModule === 'Clients' || activeSubModule === 'Won (Clients)' ? (
-            <ClientsModule clientsList={convertedClients} onConvertToProject={handleConvertToProjectData} />
+            <ClientsModule clientsList={convertedClients} setClientsList={setConvertedClients} onConvertToProject={handleConvertToProjectData} />
           ) : activeSubModule === 'Projects' ? (
             <ProjectsModule 
               projectsList={clientProjects} 
@@ -426,9 +429,6 @@ export default function App() {
         </main>
 
       </div>
-
-      {/* Floating AI Agent Copilot */}
-      <AIAgentCopilot onRunAgent={handleTriggerAI} />
 
     </div>
   );

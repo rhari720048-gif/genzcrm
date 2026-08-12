@@ -24,14 +24,10 @@ export default function ProjectsModule({
   projectHistoryList = [], 
   setProjectHistoryList 
 }) {
-  const [projects, setProjects] = useState(() => {
-    return projectsList.length > 0 ? projectsList : INITIAL_PROJECTS;
-  });
+  const [projects, setProjects] = useState(projectsList);
 
   React.useEffect(() => {
-    if (projectsList && projectsList.length > 0) {
-      setProjects(projectsList);
-    }
+    setProjects(projectsList);
   }, [projectsList]);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -199,8 +195,8 @@ export default function ProjectsModule({
                             title="Mark as Completed" 
                             onClick={() => {
                               if (confirm(`Mark project "${prj.projectName}" as Completed?`)) {
-                                // Update local & parent states status
-                                const updated = projects.map(p => p.id === prj.id ? { ...p, status: 'Completed' } : p);
+                                // Remove completed project from active Projects list & update state
+                                const updated = projects.filter(p => p.id !== prj.id);
                                 setProjects(updated);
                                 if (setProjectsList) {
                                   setProjectsList(updated);
@@ -256,9 +252,9 @@ export default function ProjectsModule({
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(6px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1.5rem'
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem', overflowY: 'auto'
         }}>
-          <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem', maxWidth: '500px', width: '100%' }}>
+          <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem', maxWidth: '520px', width: '100%', maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 25px 60px rgba(0,0,0,0.25)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0F172A' }}>Project Overview</h3>
               <button onClick={() => setViewProject(null)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={18} /></button>

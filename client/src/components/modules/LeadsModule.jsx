@@ -7,7 +7,6 @@ import {
   Star, Send, UserCheck
 } from 'lucide-react';
 
-// ─── Sample Leads Data ────────────────────────────────────────────
 const SAMPLE_LEADS = [];
 
 // ─── Constants ────────────────────────────────────────────────────
@@ -182,6 +181,35 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
       date: new Date().toISOString().split('T')[0],
       leadAddedDate: new Date().toISOString().split('T')[0], // Track lead registration timestamp
     };
+
+    if (newLead.scheduleFollowUp) {
+      if (!newLead.followUpDate) {
+        alert('Please select a Follow-Up date!');
+        return;
+      }
+      
+      // Dispatch to Follow Ups list
+      if (onScheduleFollowUp) {
+        onScheduleFollowUp({
+          id: `f-${Date.now()}`,
+          client: newLead.company || newLead.name,
+          contactPerson: newLead.contactPerson || newLead.name,
+          task: newLead.followUpTask || newLead.notes || 'Routine follow-up call',
+          dueDate: newLead.followUpDate,
+          dueTime: newLead.followUpTime || '10:00 AM',
+          priority: newLead.priority || 'Medium',
+          status: 'pending',
+          email: newLead.email,
+          phone: newLead.phone
+        });
+      }
+      
+      setShowAddForm(false);
+      resetForm();
+      alert(`📅 Lead "${newLead.name}" added and transferred to Follow Ups portal!`);
+      return;
+    }
+
     setLeads(prev => [newLead, ...prev]);
     setShowAddForm(false);
     resetForm();
@@ -260,6 +288,33 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
         setViewLead(null);
       }
     }
+  };
+
+  const handleScheduleFollowUpForLead = (lead) => {
+    const dueDate = prompt(`Enter Follow-Up Date for "${lead.name} (${lead.company})":`, new Date().toISOString().split('T')[0]);
+    if (!dueDate) return;
+    const task = prompt(`Enter Follow-Up Task/Notes:`, `Follow up call with ${lead.name}`);
+    if (!task) return;
+
+    setLeads(prev => prev.filter(l => l.id !== lead.id));
+    if (onScheduleFollowUp) {
+      onScheduleFollowUp({
+        id: `f-${Date.now()}`,
+        client: lead.company || lead.name,
+        contactPerson: lead.contactPerson || lead.name,
+        task: task,
+        dueDate: dueDate,
+        dueTime: '10:00 AM',
+        priority: lead.priority || 'Medium',
+        status: 'pending',
+        email: lead.email,
+        phone: lead.phone
+      });
+    }
+    if (viewLead && viewLead.id === lead.id) {
+      setViewLead(null);
+    }
+    alert(`📅 Lead "${lead.name}" transferred to Follow Ups portal!`);
   };
 
   const handleDeleteLead = (id) => {
@@ -508,7 +563,6 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                             setActiveCall(lead);
                             setCallStatus('connecting');
                             setCallDuration(0);
-                            // start dummy call duration timer
                             const interval = setInterval(() => {
                               setCallDuration(d => d + 1);
                             }, 1000);
@@ -570,16 +624,16 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                     </td>
                     <td style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center' }}>
-                        <button title="Convert to Client" onClick={() => handleConvertToClient(lead)} style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}>
+                        <button title="Convert to Client" onClick={(e) => { e.stopPropagation(); handleConvertToClient(lead); }} style={{ background: 'rgba(5, 150, 105, 0.1)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#059669' }}>
                           <UserCheck size={14} />
                         </button>
-                        <button title="View" onClick={() => setViewLead(lead)} style={{ background: 'rgba(37, 99, 235, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#2563EB' }}>
+                        <button title="View" onClick={(e) => { e.stopPropagation(); setViewLead(lead); }} style={{ background: 'rgba(37, 99, 235, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#2563EB' }}>
                           <Eye size={14} />
                         </button>
-                        <button title="Edit" onClick={() => openEditForm(lead)} style={{ background: 'rgba(124, 58, 237, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#7C3AED' }}>
+                        <button title="Edit / Move to Follow-up" onClick={(e) => { e.stopPropagation(); openEditForm(lead); }} style={{ background: 'rgba(124, 58, 237, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#7C3AED' }}>
                           <Edit3 size={14} />
                         </button>
-                        <button title="Delete" onClick={() => handleDeleteLead(lead.id)} style={{ background: 'rgba(225, 29, 72, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#E11D48' }}>
+                        <button title="Delete" onClick={(e) => { e.stopPropagation(); handleDeleteLead(lead.id); }} style={{ background: 'rgba(225, 29, 72, 0.08)', border: 'none', borderRadius: '6px', padding: '0.35rem', cursor: 'pointer', color: '#E11D48' }}>
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -600,11 +654,11 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(6px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-          padding: '1.5rem'
+          padding: '1rem', overflowY: 'auto'
         }}>
           <div style={{
             background: '#FFFFFF', borderRadius: '16px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)',
-            width: '100%', maxWidth: '720px', maxHeight: '90vh', display: 'flex', flexDirection: 'column',
+            width: '100%', maxWidth: '720px', maxHeight: '88vh', display: 'flex', flexDirection: 'column',
             overflow: 'hidden'
           }}>
             {/* Modal Header */}
@@ -696,54 +750,52 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
                   </div>
 
                   {/* Explicit Move to Follow-ups Selector Block */}
-                  {editLead && (
-                    <div style={{ gridColumn: 'span 2', background: '#F8FAFC', padding: '1rem', borderRadius: '10px', border: '1px solid #E2E8F0', marginTop: '0.5rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <input 
-                          type="checkbox" 
-                          id="scheduleFollowUp"
-                          checked={formData.scheduleFollowUp || false} 
-                          onChange={(e) => setFormData({ ...formData, scheduleFollowUp: e.target.checked })}
-                          style={{ width: '16px', height: '16px', cursor: 'pointer' }}
-                        />
-                        <label htmlFor="scheduleFollowUp" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7C3AED', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                          <Calendar size={15} /> Move to Follow-Ups (Schedule Date & Time)
-                        </label>
-                      </div>
-
-                      {formData.scheduleFollowUp && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginTop: '0.75rem' }}>
-                          <FormField label="Follow-Up Date" required>
-                            <input 
-                              type="date" 
-                              style={inputStyle}
-                              value={formData.followUpDate || ''} 
-                              onChange={(e) => setFormData({ ...formData, followUpDate: e.target.value })}
-                            />
-                          </FormField>
-                          <FormField label="Follow-Up Time">
-                            <input 
-                              type="text" 
-                              placeholder="10:00 AM"
-                              style={inputStyle}
-                              value={formData.followUpTime || '10:00 AM'} 
-                              onChange={(e) => setFormData({ ...formData, followUpTime: e.target.value })}
-                            />
-                          </FormField>
-                          <div style={{ gridColumn: 'span 2' }}>
-                            <FormField label="Follow-Up Task Notes" required>
-                              <textarea
-                                placeholder="Write follow up notes/action items (e.g. call back details, pricing query, call later)..."
-                                style={{ ...inputStyle, minHeight: '50px', resize: 'vertical' }}
-                                value={formData.followUpTask || ''}
-                                onChange={(e) => setFormData({ ...formData, followUpTask: e.target.value })}
-                              />
-                            </FormField>
-                          </div>
-                        </div>
-                      )}
+                  <div style={{ gridColumn: 'span 2', background: '#F8FAFC', padding: '1rem', borderRadius: '10px', border: '1px solid #E2E8F0', marginTop: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <input 
+                        type="checkbox" 
+                        id="scheduleFollowUp"
+                        checked={formData.scheduleFollowUp || false} 
+                        onChange={(e) => setFormData({ ...formData, scheduleFollowUp: e.target.checked })}
+                        style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+                      />
+                      <label htmlFor="scheduleFollowUp" style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7C3AED', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <Calendar size={15} /> Move to Follow-Ups (Schedule Date & Time)
+                      </label>
                     </div>
-                  )}
+
+                    {formData.scheduleFollowUp && (
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginTop: '0.75rem' }}>
+                        <FormField label="Follow-Up Date" required>
+                          <input 
+                            type="date" 
+                            style={inputStyle}
+                            value={formData.followUpDate || ''} 
+                            onChange={(e) => setFormData({ ...formData, followUpDate: e.target.value })}
+                          />
+                        </FormField>
+                        <FormField label="Follow-Up Time">
+                          <input 
+                            type="text" 
+                            placeholder="10:00 AM"
+                            style={inputStyle}
+                            value={formData.followUpTime || '10:00 AM'} 
+                            onChange={(e) => setFormData({ ...formData, followUpTime: e.target.value })}
+                          />
+                        </FormField>
+                        <div style={{ gridColumn: 'span 2' }}>
+                          <FormField label="Follow-Up Task Notes" required>
+                            <textarea
+                              placeholder="Write follow up notes/action items (e.g. call back details, pricing query, call later)..."
+                              style={{ ...inputStyle, minHeight: '50px', resize: 'vertical' }}
+                              value={formData.followUpTask || ''}
+                              onChange={(e) => setFormData({ ...formData, followUpTask: e.target.value })}
+                            />
+                          </FormField>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -945,11 +997,11 @@ export default function LeadsModule({ onConvertClient, onScheduleFollowUp }) {
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(6px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-          padding: '1.5rem'
+          padding: '1rem', overflowY: 'auto'
         }}>
           <div style={{
             background: '#FFFFFF', borderRadius: '16px', boxShadow: '0 25px 60px rgba(0,0,0,0.2)',
-            width: '100%', maxWidth: '600px', maxHeight: '85vh', overflow: 'auto'
+            width: '100%', maxWidth: '640px', maxHeight: '88vh', overflowY: 'auto'
           }}>
             {/* View Header */}
             <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8FAFC' }}>

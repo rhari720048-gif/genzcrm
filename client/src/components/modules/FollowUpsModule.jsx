@@ -4,7 +4,7 @@ import {
   Search, Bot, Sparkles, Filter, Phone, Mail, Check, MessageCircle, Send
 } from 'lucide-react';
 
-export default function FollowUpsModule({ followUps = [], setFollowUps, onTriggerAI }) {
+export default function FollowUpsModule({ followUps = [], setFollowUps, onTriggerAI, onConvertClient }) {
   const [filter, setFilter] = useState('active'); // 'active', 'overdue', 'completed', 'all'
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -325,6 +325,21 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
                           onClick={() => {
                             if (confirm(`Convert client "${item.client}" from Follow-up directly to Clients list?`)) {
                               setFollowUps(prev => prev.filter(f => f.id !== item.id));
+                              if (onConvertClient) {
+                                onConvertClient({
+                                  name: item.contactPerson || item.client,
+                                  company: item.client,
+                                  contactPerson: item.contactPerson || item.client,
+                                  email: item.email || `${item.client.toLowerCase().replace(/\s+/g, '')}@example.com`,
+                                  phone: item.phone || '+91 98765 43210',
+                                  service: 'System Integration',
+                                  budget: '₹2,50,000',
+                                  status: 'Active',
+                                  leadAddedDate: item.dueDate || new Date().toISOString().split('T')[0],
+                                  clientConvertedDate: new Date().toISOString().split('T')[0],
+                                  convertedDate: new Date().toISOString().split('T')[0]
+                                });
+                              }
                               alert(`🎉 Client "${item.client}" converted & transferred to Clients Portal!`);
                             }
                           }}
@@ -394,9 +409,9 @@ export default function FollowUpsModule({ followUps = [], setFollowUps, onTrigge
         <div style={{ 
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
           background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(8px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem', overflowY: 'auto'
         }}>
-          <div className="glass-card" style={{ padding: '2rem', width: '100%', maxWidth: '520px', background: '#FFFFFF', boxShadow: '0 20px 45px rgba(0,0,0,0.18)', borderRadius: '20px' }}>
+          <div className="glass-card" style={{ padding: '1.5rem', width: '100%', maxWidth: '520px', maxHeight: '88vh', overflowY: 'auto', background: '#FFFFFF', boxShadow: '0 20px 45px rgba(0,0,0,0.18)', borderRadius: '20px' }}>
             
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
               <h3 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0F172A', letterSpacing: '-0.02em', margin: 0 }}>
