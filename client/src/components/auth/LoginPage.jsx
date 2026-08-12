@@ -92,10 +92,8 @@ export default function LoginPage({ onLoginSuccess }) {
       style={{ 
       display: 'flex', 
       minHeight: '100vh', 
-      width: '100vw', 
       background: isDarkMode ? '#0F172A' : '#F8FAFC', 
       position: 'relative', 
-      overflow: 'hidden',
       fontFamily: 'var(--font-sans)',
       transition: 'background 0.3s ease'
     }}>
@@ -104,7 +102,6 @@ export default function LoginPage({ onLoginSuccess }) {
       <div 
         className="login-header-controls"
         style={{ 
-        position: 'absolute', top: '1.25rem', right: '1.5rem', 
         display: 'flex', alignItems: 'center', gap: '0.85rem', zIndex: 100 
       }}>
         {/* System Status Pill */}
@@ -154,9 +151,7 @@ export default function LoginPage({ onLoginSuccess }) {
       <div 
         className="login-left-panel"
         style={{ 
-        width: '40%', 
         background: isDarkMode ? '#1E293B' : '#FFFFFF', 
-        padding: '2.5rem 3.5rem', 
         display: 'flex', 
         flexDirection: 'column', 
         justifyContent: 'space-between',
@@ -315,14 +310,11 @@ export default function LoginPage({ onLoginSuccess }) {
       <div 
         className="login-right-panel"
         style={{ 
-        width: '60%', 
         background: 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #2563EB 100%)',
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '4rem',
         overflow: 'hidden'
       }}>
         

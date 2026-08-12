@@ -204,17 +204,12 @@ export default function App() {
       <aside 
         className={`sidebar-container ${isMobileSidebarOpen ? 'open' : ''}`}
         style={{ 
-        width: '300px', 
         background: '#FFFFFF', 
         borderRight: '1px solid var(--border-subtle)', 
         display: 'flex', 
         flexDirection: 'column', 
         justifyContent: 'space-between',
         padding: '1rem',
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-        boxShadow: '2px 0 10px rgba(0,0,0,0.02)',
         zIndex: 200
       }}>
         
@@ -259,7 +254,7 @@ export default function App() {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      justify: 'space-between',
+                      justifyContent: 'space-between',
                       width: '100%',
                       padding: '0.5rem 0.65rem',
                       borderRadius: 'var(--radius-sm)',
@@ -354,16 +349,12 @@ export default function App() {
         <header 
           className="top-header"
           style={{ 
-          height: '65px', 
           borderBottom: '1px solid var(--border-subtle)', 
           background: 'rgba(255, 255, 255, 0.95)', 
           backdropFilter: 'blur(12px)',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          padding: '0 2rem',
-          position: 'sticky',
-          top: 0,
           zIndex: 100
         }}>
           
@@ -426,7 +417,7 @@ export default function App() {
         </header>
 
         {/* Dynamic Category Engine Renderer */}
-        <main className="main-content" style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
+        <main className="main-content" style={{ flex: 1, overflowY: 'auto' }}>
           {activeCategory === 'digitalMarketing' ? (
             <DigitalMarketingModule initialSubModule={activeSubModule} />
           ) : activeSubModule === 'Leads' ? (

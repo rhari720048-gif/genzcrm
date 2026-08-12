@@ -202,7 +202,7 @@ button, .btn {
   animation: pulseGlow 3s infinite ease-in-out;
 }
 
-/* Responsive Mobile Utility Classes & Media Queries */
+/* Base Component Layout Styles */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -210,6 +210,41 @@ button, .btn {
   position: relative;
   width: 100%;
   overflow-x: hidden;
+}
+
+.sidebar-container {
+  width: 300px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+}
+
+.top-header {
+  height: 65px;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+}
+
+.main-content {
+  padding: 2rem;
+}
+
+.login-header-controls {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+}
+
+.login-left-panel {
+  width: 40%;
+  padding: 2.5rem 3.5rem;
+}
+
+.login-right-panel {
+  width: 60%;
+  padding: 4rem;
 }
 
 .table-responsive {
@@ -342,5 +377,6 @@ button, .btn {
     max-height: 520px !important;
   }
 }
+
 
 
