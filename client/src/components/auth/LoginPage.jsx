@@ -101,7 +101,9 @@ export default function LoginPage({ onLoginSuccess }) {
     }}>
       
       {/* Top Floating Controls Bar (Theme Toggle, Language Switcher, Server Status) */}
-      <div style={{ 
+      <div 
+        className="login-header-controls"
+        style={{ 
         position: 'absolute', top: '1.25rem', right: '1.5rem', 
         display: 'flex', alignItems: 'center', gap: '0.85rem', zIndex: 100 
       }}>

@@ -192,7 +192,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)', position: 'relative' }}>
+    <div className="app-layout" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)', position: 'relative' }}>
       
       {/* Mobile Overlay Backdrop */}
       <div 
