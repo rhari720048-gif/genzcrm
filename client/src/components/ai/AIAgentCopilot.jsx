@@ -56,11 +56,11 @@ export default function AIAgentCopilot({ onRunAgent }) {
 
       {/* Expanded Copilot Chat Box */}
       {isOpen && (
-        <div className="glass-card glow-violet" style={{ 
+        <div className="glass-card glow-violet copilot-chat-box" style={{ 
           width: '380px', height: '480px', 
           background: '#FFFFFF', 
           display: 'flex', flexDirection: 'column', 
-          justify: 'space-between',
+          justifyContent: 'space-between',
           overflow: 'hidden',
           boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
           border: '1px solid var(--border-subtle)'

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Handshake, Rocket, Code, TestTube, DollarSign, 
   Megaphone, Smartphone, Landmark, UserCheck, HeartHandshake, Headphones, 
   MessageSquare, BarChart3, Bot, Settings, Search, ChevronDown, ChevronRight, 
-  Sparkles, Layers, Bell, Crown, ShieldCheck, LogOut, Activity
+  Sparkles, Layers, Bell, Crown, ShieldCheck, LogOut, Activity, Menu, X
 } from 'lucide-react';
 
 import MasterControlViews from './components/views/MasterControlViews';
@@ -24,6 +24,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState('dashboard');
   const [activeSubModule, setActiveSubModule] = useState('Overview');
   const [sidebarSearch, setSidebarSearch] = useState('');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [convertedClients, setConvertedClients] = useState([]);
   const [clientProjects, setClientProjects] = useState([]);
   const [projectHistoryList, setProjectHistoryList] = useState([]);
@@ -128,6 +129,7 @@ export default function App() {
   const handleSelectSubModule = (catId, subName) => {
     setActiveCategory(catId);
     setActiveSubModule(subName);
+    setIsMobileSidebarOpen(false);
   };
 
   const handleTriggerAI = (agentId, query) => {
@@ -190,16 +192,24 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)', position: 'relative' }}>
       
+      {/* Mobile Overlay Backdrop */}
+      <div 
+        className={`mobile-overlay-backdrop ${isMobileSidebarOpen ? 'active' : ''}`} 
+        onClick={() => setIsMobileSidebarOpen(false)} 
+      />
+
       {/* Searchable 17-Category Enterprise Sidebar */}
-      <aside style={{ 
+      <aside 
+        className={`sidebar-container ${isMobileSidebarOpen ? 'open' : ''}`}
+        style={{ 
         width: '300px', 
         background: '#FFFFFF', 
         borderRight: '1px solid var(--border-subtle)', 
         display: 'flex', 
         flexDirection: 'column', 
-        justify: 'space-between',
+        justifyContent: 'space-between',
         padding: '1rem',
         position: 'sticky',
         top: 0,
@@ -210,9 +220,16 @@ export default function App() {
         
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
           
-          {/* Header Brand */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.25rem', paddingLeft: '0.25rem' }}>
+          {/* Header Brand & Mobile Close Button */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', paddingLeft: '0.25rem' }}>
             <GenZLogo height={56} />
+            <button 
+              onClick={() => setIsMobileSidebarOpen(false)}
+              className="btn-secondary"
+              style={{ padding: '0.35rem 0.5rem', display: 'flex', alignItems: 'center' }}
+            >
+              <X size={18} />
+            </button>
           </div>
 
           {/* Quick Sub-module Instant Search */}
@@ -334,32 +351,42 @@ export default function App() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         
         {/* Master Top Header Bar */}
-        <header style={{ 
+        <header 
+          className="top-header"
+          style={{ 
           height: '65px', 
           borderBottom: '1px solid var(--border-subtle)', 
           background: 'rgba(255, 255, 255, 0.95)', 
           backdropFilter: 'blur(12px)',
           display: 'flex', 
           alignItems: 'center', 
-          justify: 'space-between',
+          justifyContent: 'space-between',
           padding: '0 2rem',
           position: 'sticky',
           top: 0,
           zIndex: 100
         }}>
           
-          {/* Breadcrumb Path */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            <Layers size={16} color="#7C3AED" />
-            <span>Master Control</span>
-            <ChevronRight size={14} />
-            <span style={{ textTransform: 'capitalize', fontWeight: 600 }}>{activeCategory}</span>
-            <ChevronRight size={14} />
-            <span style={{ fontWeight: 800, color: '#0F172A' }}>{activeSubModule}</span>
+          {/* Mobile Menu Hamburger Toggle & Breadcrumb */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button 
+              onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+              className="btn-secondary"
+              style={{ padding: '0.45rem 0.65rem', display: 'inline-flex', alignItems: 'center' }}
+            >
+              {isMobileSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+              <Layers size={16} color="#7C3AED" />
+              <span style={{ textTransform: 'capitalize', fontWeight: 600 }}>{activeCategory}</span>
+              <ChevronRight size={14} />
+              <span style={{ fontWeight: 800, color: '#0F172A' }}>{activeSubModule}</span>
+            </div>
           </div>
 
           {/* Master Search */}
-          <div className="glass-card" style={{ width: '380px', padding: '0.45rem 0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#F8FAFC' }}>
+          <div className="glass-card header-search-bar" style={{ width: '380px', padding: '0.45rem 0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#F8FAFC' }}>
             <Search size={16} color="var(--text-dim)" />
             <input 
               type="text" 
@@ -369,9 +396,9 @@ export default function App() {
           </div>
 
           {/* Header Badges & Sign Out Button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <span className="badge badge-violet" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.8rem', fontWeight: 600 }}>
-              <Crown size={14} color="#7C3AED" /> Role: {userRole}
+              <Crown size={14} color="#7C3AED" /> {userRole}
             </span>
 
             <button 
@@ -381,7 +408,7 @@ export default function App() {
                 alignItems: 'center', 
                 gap: '0.45rem', 
                 fontSize: '0.82rem', 
-                padding: '0.5rem 1rem', 
+                padding: '0.5rem 0.85rem', 
                 color: '#FFFFFF', 
                 background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', 
                 border: 'none',
@@ -399,7 +426,7 @@ export default function App() {
         </header>
 
         {/* Dynamic Category Engine Renderer */}
-        <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
+        <main className="main-content" style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
           {activeCategory === 'digitalMarketing' ? (
             <DigitalMarketingModule initialSubModule={activeSubModule} />
           ) : activeSubModule === 'Leads' ? (

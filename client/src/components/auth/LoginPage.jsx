@@ -87,11 +87,13 @@ export default function LoginPage({ onLoginSuccess }) {
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div 
+      className="login-container"
+      style={{ 
       display: 'flex', 
+      minHeight: '100vh', 
+      width: '100vw', 
       background: isDarkMode ? '#0F172A' : '#F8FAFC', 
-      color: isDarkMode ? '#F8FAFC' : '#111827',
       position: 'relative', 
       overflow: 'hidden',
       fontFamily: 'var(--font-sans)',
@@ -147,14 +149,15 @@ export default function LoginPage({ onLoginSuccess }) {
       {/* ========================================================================= */}
       {/* LEFT SIDE (40% Width) - LOGIN FORM & ANNOUNCEMENTS */}
       {/* ========================================================================= */}
-      <div style={{ 
+      <div 
+        className="login-left-panel"
+        style={{ 
         width: '40%', 
-        minWidth: '420px', 
         background: isDarkMode ? '#1E293B' : '#FFFFFF', 
         padding: '2.5rem 3.5rem', 
         display: 'flex', 
         flexDirection: 'column', 
-        justify: 'space-between',
+        justifyContent: 'space-between',
         borderRight: '1px solid var(--border-subtle)',
         boxShadow: '10px 0 30px rgba(0,0,0,0.04)',
         zIndex: 10,
@@ -307,14 +310,16 @@ export default function LoginPage({ onLoginSuccess }) {
       {/* ========================================================================= */}
       {/* RIGHT SIDE (60% Width) - ANIMATED GLASSMORPHISM & ILLUSTRATION */}
       {/* ========================================================================= */}
-      <div style={{ 
+      <div 
+        className="login-right-panel"
+        style={{ 
         width: '60%', 
         background: 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #2563EB 100%)',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justify: 'center',
+        justifyContent: 'center',
         padding: '4rem',
         overflow: 'hidden'
       }}>

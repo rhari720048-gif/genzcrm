@@ -201,3 +201,116 @@ button, .btn {
 .animate-glow {
   animation: pulseGlow 3s infinite ease-in-out;
 }
+
+/* Responsive Mobile Utility Classes & Media Queries */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.mobile-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-overlay-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  /* Mobile Sidebar Drawer */
+  aside.sidebar-container {
+    position: fixed !important;
+    top: 0;
+    left: -320px;
+    height: 100vh !important;
+    width: 290px !important;
+    z-index: 999 !important;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  aside.sidebar-container.open {
+    left: 0 !important;
+  }
+
+  header.top-header {
+    padding: 0 1rem !important;
+    height: auto !important;
+    min-height: 60px !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  main.main-content {
+    padding: 1rem !important;
+  }
+
+  .header-search-bar {
+    width: 100% !important;
+    order: 3;
+  }
+
+  .login-container {
+    flex-direction: column !important;
+  }
+
+  .login-left-panel {
+    width: 100% !important;
+    min-width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    padding: 1.75rem 1.25rem !important;
+  }
+
+  .login-right-panel {
+    width: 100% !important;
+    padding: 1.75rem 1.25rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  header.top-header {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .btn-primary, .btn-secondary, .btn-cyber {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .glass-card {
+    padding: 0.85rem !important;
+  }
+
+  .copilot-chat-box {
+    width: calc(100vw - 24px) !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    height: 80vh !important;
+    max-height: 520px !important;
+  }
+}
+
